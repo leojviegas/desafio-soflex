@@ -1,8 +1,8 @@
 # Especificación de IA 01: Extracción Estructurada, Proveedores Dual y Uso del Dataset
 
-## 1. Patrón Dual-Provider (`CopilotAnalyzerProvider`)
+## 1. Patrón Dual-Provider en Dos Niveles (`providers/ai/`)
 
-El backend desacopla el servicio de dominio de cualquier proveedor concreto mediante la interfaz:
+El backend desacopla los servicios de negocio de cualquier proveedor concreto mediante una interfaz única (`CopilotAnalyzerProvider`) y dos niveles de selección en el composition root (`src/inject.ts`):
 
 ```ts
 export interface CopilotAnalyzerProvider {
@@ -10,15 +10,35 @@ export interface CopilotAnalyzerProvider {
 }
 ```
 
+### Nivel 1: Selección de Modo (`buildAnalyzer` en `src/inject.ts`)
+- Si `LLM_PROVIDER=mock` (valor por defecto cuando no hay credenciales externas): instancia `MockCopilotAnalyzer`.
+- Si `LLM_PROVIDER` es `gemini` | `ollama` | `openai` | `openai-compatible`: construye el `LanguageModel` mediante `buildLanguageModel(config.llm)` e instancia `LlmCopilotAnalyzer` (con `MockCopilotAnalyzer` inyectado como respaldo opcional si `LLM_FALLBACK_TO_MOCK=true`).
+- El servicio de aplicación (`LlamadaService`) depende únicamente de `CopilotAnalyzerProvider` y desconoce si detrás opera un LLM remoto, uno local o el motor determinista.
+
+### Nivel 2: Adaptador de Modelo (`buildLanguageModel` en `src/providers/ai/llm.ts`)
+Factory basada en **Vercel AI SDK** (`ai`) que devuelve un `LanguageModel` unificado según `config.llm.provider`:
+- `gemini`: `@ai-sdk/google` (`createGoogleGenerativeAI({ apiKey })`, default `gemini-2.5-flash`). Requiere `GEMINI_API_KEY`.
+- `ollama`: `ollama-ai-provider-v2` (`createOllama({ baseURL })`, default `http://localhost:11434/api`, modelo default `qwen2.5:7b`).
+- `openai`: `@ai-sdk/openai` (`createOpenAI({ apiKey })`, default `gpt-4o-mini`). Requiere `OPENAI_API_KEY`.
+- `openai-compatible`: `@ai-sdk/openai-compatible` (`createOpenAICompatible({ name, baseURL, apiKey })`) para servidores como Groq, vLLM o LM Studio. Requiere `LLM_BASE_URL`.
+
+### Variables de Entorno de IA (`src/config/env.ts`)
+- `LLM_PROVIDER`: `mock` (default) | `gemini` | `ollama` | `openai` | `openai-compatible`
+- `LLM_MODEL`: sobrescribe el modelo por defecto del proveedor elegido
+- `LLM_BASE_URL`: URL base para `ollama` o `openai-compatible`
+- `GEMINI_API_KEY` / `OPENAI_API_KEY`: credenciales del proveedor real (nunca commiteadas)
+- `LLM_TIMEOUT_MS`: timeout de llamada al modelo (default `15000`)
+- `LLM_FALLBACK_TO_MOCK`: `true` (default) | `false`
+
 ### 1.1. Modo Real (`LlmCopilotAnalyzer`)
-- Usa **Vercel AI SDK** (`generateObject`) con esquema estricto `AnalisisCopilotoOutputSchema` (Zod) y temperatura baja (`0.1`) para maximizar determinismo.
-- Factory `buildLanguageModel(config)` compatible con:
-  - `gemini`: Google AI (`@ai-sdk/google`, ej. `gemini-2.5-flash`).
-  - `ollama`: Servidor local Ollama (`ollama-ai-provider-v2`, ej. `qwen2.5:7b` o `llama3.1:8b`).
-  - `openai` / `openai-compatible`: OpenAI, Groq, vLLM, LM Studio.
-- **Timeout y Resiliencia**:
-  - Timeout configurable (`LLM_TIMEOUT_MS`, default `15000`).
-  - Si el proveedor falla por red, cuota, timeout o esquema inválido, si `LLM_FALLBACK_TO_MOCK=true` (recomendado en demo), degrada automáticamente a `MockCopilotAnalyzer` retornando `degradado: true`; si está deshabilitado, lanza `AiProviderUnavailableError` (HTTP `503`).
+- Invoca `generateObject` de `ai` pasando:
+  - `model`: instancia `LanguageModel` provista por `buildLanguageModel`.
+  - `schema`: esquema estricto `AnalisisCopilotoOutputSchema` (Zod), que el SDK convierte a JSON Schema (Structured Outputs) y revalida al recibir la respuesta.
+  - `system`: prompt fijo con rol de operador 911 (no despachador CAD), criterios `P1`..`P4` y reglas anti-alucinación.
+  - `prompt`: bloque *few-shot* (2 ejemplos recuperados del CSV) + transcripción actual y turnos acumulados.
+  - `temperature: 0.1` y `abortSignal: AbortSignal.timeout(timeoutMs)`.
+- Registra métricas operativas en log (`provider`, `model`, `latenciaMs`, `inputTokens`, `outputTokens`) sin exponer secretos.
+- **Resiliencia**: ante `RetryError`, timeout o fallo de validación de esquema, si `LLM_FALLBACK_TO_MOCK=true`, ejecuta `MockCopilotAnalyzer` y devuelve `degradado: true` con `motivoDegradacion`; si está deshabilitado, lanza `AiProviderUnavailableError` (HTTP `503`).
 
 ### 1.2. Modo Simulado (`MockCopilotAnalyzer`, `LLM_PROVIDER=mock`)
 - Activo por defecto cuando no hay credenciales externas configuradas.
