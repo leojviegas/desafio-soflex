@@ -46,7 +46,7 @@ export function OperationalHeader({
   const provider = analisis?.proveedorUsado ?? health?.ai.provider ?? 'mock';
   const model = analisis?.modeloUsado ?? health?.ai.model ?? 'deterministic-rules-v1';
   const isMock = provider === 'mock';
-  const degradado = analisis?.degradado ?? false;
+  const degradado = analisis ? analisis.degradado : health?.status === 'degraded';
 
   return (
     <header

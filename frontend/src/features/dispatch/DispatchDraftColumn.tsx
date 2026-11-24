@@ -8,7 +8,7 @@ import {
   Trash2,
   X,
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FieldOriginTag, type FieldOrigin } from '../../components/FieldOriginTag';
 import type { PatchLlamadaPayload } from '../../types/api';
 import {
@@ -23,9 +23,44 @@ interface DispatchDraftColumnProps {
   catalogo: CatalogoProtocolos | null;
   analyzing: boolean;
   submitting: boolean;
+  savingDraft?: boolean;
   onPatchLlamada: (payload: PatchLlamadaPayload) => Promise<void>;
+  onRegisterFlush?: (flushFn: (() => Promise<void>) | null) => void;
   onDerivar: () => Promise<void>;
   onDescartar: () => Promise<void>;
+}
+
+interface TextDraft {
+  calle: string;
+  altura: string;
+  interseccion: string;
+  barrioComuna: string;
+  referencia: string;
+  descripcionIncidente: string;
+  notasOperativasDespacho: string;
+}
+
+const EMPTY_TEXT_DRAFT: TextDraft = {
+  calle: '',
+  altura: '',
+  interseccion: '',
+  barrioComuna: '',
+  referencia: '',
+  descripcionIncidente: '',
+  notasOperativasDespacho: '',
+};
+
+function extractDraftFromLlamada(llamada: Llamada | null): TextDraft {
+  if (!llamada) return EMPTY_TEXT_DRAFT;
+  return {
+    calle: llamada.ubicacion.calle ?? '',
+    altura: llamada.ubicacion.altura ?? '',
+    interseccion: llamada.ubicacion.interseccion ?? '',
+    barrioComuna: llamada.ubicacion.barrioComuna ?? '',
+    referencia: llamada.ubicacion.referencia ?? '',
+    descripcionIncidente: llamada.descripcionIncidente,
+    notasOperativasDespacho: llamada.notasOperativasDespacho,
+  };
 }
 
 const PRIORIDADES: PrioridadIncidente[] = ['P1', 'P2', 'P3', 'P4'];
@@ -58,12 +93,134 @@ export function DispatchDraftColumn({
   catalogo,
   analyzing,
   submitting,
+  savingDraft = false,
   onPatchLlamada,
+  onRegisterFlush,
   onDerivar,
   onDescartar,
 }: DispatchDraftColumnProps) {
   const [newResource, setNewResource] = useState('');
+  const [draft, setDraft] = useState<TextDraft>(() => extractDraftFromLlamada(llamada));
+  const draftRef = useRef<TextDraft>(draft);
+  const dirtyFieldsRef = useRef<Set<keyof TextDraft>>(new Set());
+  const debounceTimerRef = useRef<number | null>(null);
+  const lastCallIdRef = useRef<string | null>(llamada?.id ?? null);
+
   const isLocked = llamada !== null && llamada.estado !== 'EN_CURSO';
+
+  useEffect(() => {
+    const nextId = llamada?.id ?? null;
+    if (nextId !== lastCallIdRef.current) {
+      if (debounceTimerRef.current !== null) {
+        window.clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
+      }
+      dirtyFieldsRef.current.clear();
+      lastCallIdRef.current = nextId;
+      const reset = extractDraftFromLlamada(llamada);
+      draftRef.current = reset;
+      setDraft(reset);
+      return;
+    }
+
+    if (!llamada) {
+      return;
+    }
+
+    const incoming = extractDraftFromLlamada(llamada);
+    setDraft((prev) => {
+      const dirty = dirtyFieldsRef.current;
+      const merged: TextDraft = {
+        calle: dirty.has('calle') ? prev.calle : incoming.calle,
+        altura: dirty.has('altura') ? prev.altura : incoming.altura,
+        interseccion: dirty.has('interseccion') ? prev.interseccion : incoming.interseccion,
+        barrioComuna: dirty.has('barrioComuna') ? prev.barrioComuna : incoming.barrioComuna,
+        referencia: dirty.has('referencia') ? prev.referencia : incoming.referencia,
+        descripcionIncidente: dirty.has('descripcionIncidente')
+          ? prev.descripcionIncidente
+          : incoming.descripcionIncidente,
+        notasOperativasDespacho: dirty.has('notasOperativasDespacho')
+          ? prev.notasOperativasDespacho
+          : incoming.notasOperativasDespacho,
+      };
+      draftRef.current = merged;
+      return merged;
+    });
+  }, [llamada, llamada?.id, llamada?.actualizadaEn]);
+
+  const flushPendingDraft = useCallback(async () => {
+    if (debounceTimerRef.current !== null) {
+      window.clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+
+    if (!llamada || isLocked || dirtyFieldsRef.current.size === 0) {
+      return;
+    }
+
+    const dirtyKeys = Array.from(dirtyFieldsRef.current);
+    dirtyFieldsRef.current.clear();
+
+    const current = draftRef.current;
+    const payload: PatchLlamadaPayload = {};
+    const ubicacionPatch: NonNullable<PatchLlamadaPayload['ubicacion']> = {};
+    let hasUbicacion = false;
+
+    for (const key of dirtyKeys) {
+      if (
+        key === 'calle' ||
+        key === 'altura' ||
+        key === 'interseccion' ||
+        key === 'barrioComuna' ||
+        key === 'referencia'
+      ) {
+        const trimmed = current[key].trim();
+        ubicacionPatch[key] = trimmed.length > 0 ? trimmed : null;
+        hasUbicacion = true;
+      } else if (key === 'descripcionIncidente') {
+        payload.descripcionIncidente = current.descripcionIncidente.trim();
+      } else if (key === 'notasOperativasDespacho') {
+        payload.notasOperativasDespacho = current.notasOperativasDespacho.trim();
+      }
+    }
+
+    if (hasUbicacion) {
+      payload.ubicacion = ubicacionPatch;
+    }
+
+    await onPatchLlamada(payload);
+  }, [llamada, isLocked, onPatchLlamada]);
+
+  useEffect(() => {
+    onRegisterFlush?.(flushPendingDraft);
+    return () => {
+      onRegisterFlush?.(null);
+    };
+  }, [flushPendingDraft, onRegisterFlush]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current !== null) {
+        window.clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
+
+  function handleTextChange(field: keyof TextDraft, value: string) {
+    if (!llamada || isLocked) return;
+    const next = { ...draftRef.current, [field]: value };
+    draftRef.current = next;
+    setDraft(next);
+    dirtyFieldsRef.current.add(field);
+
+    if (debounceTimerRef.current !== null) {
+      window.clearTimeout(debounceTimerRef.current);
+    }
+    debounceTimerRef.current = window.setTimeout(() => {
+      debounceTimerRef.current = null;
+      void flushPendingDraft();
+    }, 350);
+  }
 
   const editedSet = useMemo(
     () => new Set(llamada?.camposEditadosPorOperador ?? []),
@@ -87,17 +244,17 @@ export function DispatchDraftColumn({
     if (!llamada.subcategoriaId) missing.push('Subcategoría');
     if (!llamada.prioridad) missing.push('Prioridad');
     if (
-      !llamada.ubicacion.calle?.trim() &&
-      !llamada.ubicacion.interseccion?.trim() &&
-      !llamada.ubicacion.referencia?.trim()
+      !draft.calle.trim() &&
+      !draft.interseccion.trim() &&
+      !draft.referencia.trim()
     ) {
       missing.push('Ubicación mínima');
     }
-    if (!llamada.notasOperativasDespacho.trim()) {
+    if (!draft.notasOperativasDespacho.trim()) {
       missing.push('Notas operativas');
     }
     return missing;
-  }, [llamada]);
+  }, [llamada, draft.calle, draft.interseccion, draft.referencia, draft.notasOperativasDespacho]);
 
   function getFieldOrigin(
     fieldKey: string,
@@ -152,6 +309,18 @@ export function DispatchDraftColumn({
             </div>
           </div>
         </div>
+        {savingDraft ? (
+          <span
+            className="font-mono-tabular rounded border px-1.5 py-0.5 text-[10px] font-medium"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              borderColor: 'var(--border-subtle)',
+              color: 'var(--text-muted)',
+            }}
+          >
+            Guardando...
+          </span>
+        ) : null}
       </div>
 
       {!llamada ? (
@@ -286,10 +455,9 @@ export function DispatchDraftColumn({
                     id="loc-calle"
                     type="text"
                     disabled={isLocked}
-                    value={llamada.ubicacion.calle ?? ''}
-                    onChange={(e) =>
-                      void onPatchLlamada({ ubicacion: { calle: e.target.value } })
-                    }
+                    value={draft.calle}
+                    onChange={(e) => handleTextChange('calle', e.target.value)}
+                    onBlur={() => void flushPendingDraft()}
                     placeholder="Ej. Av. Corrientes"
                     className="h-8 w-full rounded border px-2 text-xs outline-none disabled:opacity-60"
                     style={{
@@ -325,10 +493,9 @@ export function DispatchDraftColumn({
                     id="loc-altura"
                     type="text"
                     disabled={isLocked}
-                    value={llamada.ubicacion.altura ?? ''}
-                    onChange={(e) =>
-                      void onPatchLlamada({ ubicacion: { altura: e.target.value } })
-                    }
+                    value={draft.altura}
+                    onChange={(e) => handleTextChange('altura', e.target.value)}
+                    onBlur={() => void flushPendingDraft()}
                     placeholder="Ej. 1540"
                     className="font-mono-tabular h-8 w-full rounded border px-2 text-xs outline-none disabled:opacity-60"
                     style={{
@@ -364,10 +531,9 @@ export function DispatchDraftColumn({
                     id="loc-interseccion"
                     type="text"
                     disabled={isLocked}
-                    value={llamada.ubicacion.interseccion ?? ''}
-                    onChange={(e) =>
-                      void onPatchLlamada({ ubicacion: { interseccion: e.target.value } })
-                    }
+                    value={draft.interseccion}
+                    onChange={(e) => handleTextChange('interseccion', e.target.value)}
+                    onBlur={() => void flushPendingDraft()}
                     placeholder="Ej. Montevideo y Paraná"
                     className="h-8 w-full rounded border px-2 text-xs outline-none disabled:opacity-60"
                     style={{
@@ -403,10 +569,9 @@ export function DispatchDraftColumn({
                     id="loc-barrio"
                     type="text"
                     disabled={isLocked}
-                    value={llamada.ubicacion.barrioComuna ?? ''}
-                    onChange={(e) =>
-                      void onPatchLlamada({ ubicacion: { barrioComuna: e.target.value } })
-                    }
+                    value={draft.barrioComuna}
+                    onChange={(e) => handleTextChange('barrioComuna', e.target.value)}
+                    onBlur={() => void flushPendingDraft()}
                     placeholder="Ej. San Nicolás (Comuna 1)"
                     className="h-8 w-full rounded border px-2 text-xs outline-none disabled:opacity-60"
                     style={{
@@ -441,10 +606,9 @@ export function DispatchDraftColumn({
                     id="loc-referencia"
                     type="text"
                     disabled={isLocked}
-                    value={llamada.ubicacion.referencia ?? ''}
-                    onChange={(e) =>
-                      void onPatchLlamada({ ubicacion: { referencia: e.target.value } })
-                    }
+                    value={draft.referencia}
+                    onChange={(e) => handleTextChange('referencia', e.target.value)}
+                    onBlur={() => void flushPendingDraft()}
                     placeholder="Ej. Pizzería frente al teatro, 3ro C..."
                     className="h-8 w-full rounded border px-2 text-xs outline-none disabled:opacity-60"
                     style={{
@@ -564,10 +728,9 @@ export function DispatchDraftColumn({
                 id="desc-incidente"
                 type="text"
                 disabled={isLocked}
-                value={llamada.descripcionIncidente}
-                onChange={(e) =>
-                  void onPatchLlamada({ descripcionIncidente: e.target.value })
-                }
+                value={draft.descripcionIncidente}
+                onChange={(e) => handleTextChange('descripcionIncidente', e.target.value)}
+                onBlur={() => void flushPendingDraft()}
                 placeholder="Resumen conciso del hecho..."
                 className="h-8 w-full rounded border px-2.5 text-xs outline-none disabled:opacity-60"
                 style={{
@@ -600,15 +763,14 @@ export function DispatchDraftColumn({
                 id="notas-despacho"
                 rows={3}
                 disabled={isLocked}
-                value={llamada.notasOperativasDespacho}
-                onChange={(e) =>
-                  void onPatchLlamada({ notasOperativasDespacho: e.target.value })
-                }
+                value={draft.notasOperativasDespacho}
+                onChange={(e) => handleTextChange('notasOperativasDespacho', e.target.value)}
+                onBlur={() => void flushPendingDraft()}
                 placeholder="Síntesis accionable para el despachador CAD (sin transcripción cruda)..."
                 className="w-full resize-none rounded border p-2.5 text-xs leading-relaxed outline-none disabled:opacity-60"
                 style={{
                   backgroundColor: 'var(--bg-input)',
-                  borderColor: !llamada.notasOperativasDespacho.trim()
+                  borderColor: !draft.notasOperativasDespacho.trim()
                     ? 'var(--missing-border)'
                     : 'var(--border-strong)',
                   color: 'var(--text-primary)',

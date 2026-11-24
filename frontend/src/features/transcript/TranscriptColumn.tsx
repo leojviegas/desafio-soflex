@@ -175,6 +175,7 @@ export function TranscriptColumn({
               onKeyDown={(e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                   e.preventDefault();
+                  e.stopPropagation();
                   void handleStartFreeCall();
                 }
               }}
@@ -501,6 +502,7 @@ export function TranscriptColumn({
             onKeyDown={(e) => {
               if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
+                e.stopPropagation();
                 if (turnDraft.trim()) {
                   void handleSendTurn(true);
                 } else {

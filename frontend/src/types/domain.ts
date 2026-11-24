@@ -149,6 +149,7 @@ export interface Llamada {
   notasOperativasDespacho: string;
   ultimoAnalisis: AnalisisCopiloto | null;
   camposEditadosPorOperador: string[];
+  faltantesParaDerivar?: string[];
   cartaDespacho?: CartaDespacho | null;
   creadaEn: string;
   actualizadaEn: string;

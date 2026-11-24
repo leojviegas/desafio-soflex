@@ -2,7 +2,7 @@ import type { CopilotApiClient } from '../types/api';
 import { HttpCopilotApiClient } from './httpApiClient';
 import { MockCopilotApiClient } from './mockApiClient';
 
-const useMockApi = (import.meta.env.VITE_USE_MOCK_API ?? 'true') !== 'false';
+const useMockApi = import.meta.env.VITE_USE_MOCK_API === 'true';
 const apiBaseUrl = import.meta.env.VITE_API_URL ?? '/api';
 
 export const apiClient: CopilotApiClient = useMockApi

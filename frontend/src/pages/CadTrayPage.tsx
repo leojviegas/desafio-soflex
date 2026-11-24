@@ -4,6 +4,7 @@ import {
   Filter,
   Inbox,
   MapPin,
+  RefreshCw,
   ShieldCheck,
   Truck,
 } from 'lucide-react';
@@ -19,6 +20,12 @@ import {
 interface CadTrayPageProps {
   cartas: CartaDespacho[];
   catalogo: CatalogoProtocolos | null;
+  loading?: boolean;
+  priorityFilter: PrioridadIncidente | 'TODAS';
+  categoriaFilter: number | 'TODAS';
+  onChangePriorityFilter: (priority: PrioridadIncidente | 'TODAS') => void;
+  onChangeCategoriaFilter: (categoriaId: number | 'TODAS') => void;
+  onRefresh: () => void;
   onBackToConsole: () => void;
 }
 
@@ -47,10 +54,14 @@ function formatTime(iso: string): string {
 export function CadTrayPage({
   cartas,
   catalogo,
+  loading = false,
+  priorityFilter,
+  categoriaFilter,
+  onChangePriorityFilter,
+  onChangeCategoriaFilter,
+  onRefresh,
   onBackToConsole,
 }: CadTrayPageProps) {
-  const [priorityFilter, setPriorityFilter] = useState<PrioridadIncidente | 'TODAS'>('TODAS');
-  const [categoriaFilter, setCategoriaFilter] = useState<number | 'TODAS'>('TODAS');
   const [selectedId, setSelectedId] = useState<string | null>(cartas[0]?.id ?? null);
 
   const lookup = useMemo(() => {
@@ -65,18 +76,10 @@ export function CadTrayPage({
     return { catMap, subMap };
   }, [catalogo]);
 
-  const filtered = useMemo(() => {
-    return cartas.filter((c) => {
-      if (priorityFilter !== 'TODAS' && c.prioridad !== priorityFilter) return false;
-      if (categoriaFilter !== 'TODAS' && c.categoriaId !== categoriaFilter) return false;
-      return true;
-    });
-  }, [cartas, priorityFilter, categoriaFilter]);
-
   const selectedCarta = useMemo(() => {
-    if (filtered.length === 0) return null;
-    return filtered.find((c) => c.id === selectedId) ?? filtered[0];
-  }, [filtered, selectedId]);
+    if (cartas.length === 0) return null;
+    return cartas.find((c) => c.id === selectedId) ?? cartas[0];
+  }, [cartas, selectedId]);
 
   return (
     <main
@@ -118,7 +121,7 @@ export function CadTrayPage({
                 <button
                   key={prio}
                   type="button"
-                  onClick={() => setPriorityFilter(prio)}
+                  onClick={() => onChangePriorityFilter(prio)}
                   className="font-mono-tabular h-6 rounded px-2 text-[11px] font-semibold transition-colors"
                   style={
                     priorityFilter === prio
@@ -136,7 +139,7 @@ export function CadTrayPage({
             aria-label="Filtrar por categoría"
             value={categoriaFilter}
             onChange={(e) =>
-              setCategoriaFilter(e.target.value === 'TODAS' ? 'TODAS' : Number(e.target.value))
+              onChangeCategoriaFilter(e.target.value === 'TODAS' ? 'TODAS' : Number(e.target.value))
             }
             className="h-7 rounded border px-2 text-xs outline-none"
             style={{
@@ -155,6 +158,21 @@ export function CadTrayPage({
 
           <button
             type="button"
+            onClick={onRefresh}
+            disabled={loading}
+            className="inline-flex h-7 items-center gap-1.5 rounded border px-2.5 text-xs font-medium disabled:opacity-50"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              borderColor: 'var(--border-strong)',
+              color: 'var(--text-primary)',
+            }}
+          >
+            <RefreshCw className={`h-3 w-3 ${loading ? 'animate-spin' : ''}`} />
+            <span>Actualizar</span>
+          </button>
+
+          <button
+            type="button"
             onClick={onBackToConsole}
             className="h-7 rounded border px-2.5 text-xs font-medium"
             style={{
@@ -169,7 +187,7 @@ export function CadTrayPage({
       </div>
 
       {/* Master-Detail Content */}
-      {filtered.length === 0 ? (
+      {cartas.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
           <Inbox className="mb-3 h-8 w-8 opacity-40" style={{ color: 'var(--text-muted)' }} />
           <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
@@ -192,7 +210,7 @@ export function CadTrayPage({
             }}
           >
             <div className="divide-y" style={{ borderColor: 'var(--border-subtle)' }}>
-              {filtered.map((carta) => {
+              {cartas.map((carta) => {
                 const isSelected = selectedCarta?.id === carta.id;
                 const ubicacionStr = [
                   carta.ubicacion.calle,

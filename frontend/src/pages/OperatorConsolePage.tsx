@@ -18,8 +18,10 @@ interface OperatorConsolePageProps {
   quickCases: CasoReferenciaCsv[];
   analyzing: boolean;
   submitting: boolean;
+  savingDraft?: boolean;
   errorMessage: string | null;
   onDismissError: () => void;
+  onRetryBootstrap?: () => void;
   onCreateFreeCall: (origen: OrigenReporte, transcripcion: string) => Promise<void>;
   onSelectCase: (caso: CasoReferenciaCsv) => void;
   onAppendTurno: (
@@ -36,6 +38,7 @@ interface OperatorConsolePageProps {
     notaOperador?: string | null,
   ) => Promise<void>;
   onPatchLlamada: (payload: PatchLlamadaPayload) => Promise<void>;
+  onRegisterFlush?: (flushFn: (() => Promise<void>) | null) => void;
   onDerivar: () => Promise<void>;
   onDescartar: () => Promise<void>;
   onOpenCadTray: () => void;
@@ -47,8 +50,10 @@ export function OperatorConsolePage({
   quickCases,
   analyzing,
   submitting,
+  savingDraft = false,
   errorMessage,
   onDismissError,
+  onRetryBootstrap,
   onCreateFreeCall,
   onSelectCase,
   onAppendTurno,
@@ -57,6 +62,7 @@ export function OperatorConsolePage({
   onTogglePreArribo,
   onUpdateChecklistItem,
   onPatchLlamada,
+  onRegisterFlush,
   onDerivar,
   onDescartar,
   onOpenCadTray,
@@ -81,14 +87,30 @@ export function OperatorConsolePage({
             <AlertTriangle className="h-4 w-4 shrink-0" />
             <span>{errorMessage}</span>
           </div>
-          <button
-            type="button"
-            onClick={onDismissError}
-            className="rounded p-0.5 hover:opacity-80"
-            aria-label="Cerrar alerta"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {!catalogo && onRetryBootstrap ? (
+              <button
+                type="button"
+                onClick={onRetryBootstrap}
+                className="rounded border px-2 py-0.5 text-[11px] font-semibold hover:opacity-85"
+                style={{
+                  backgroundColor: 'var(--bg-surface)',
+                  borderColor: 'var(--p1-border)',
+                  color: 'var(--p1-text)',
+                }}
+              >
+                Reintentar conexión
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={onDismissError}
+              className="rounded p-0.5 hover:opacity-80"
+              aria-label="Cerrar alerta"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
         </div>
       ) : null}
 
@@ -180,7 +202,9 @@ export function OperatorConsolePage({
             catalogo={catalogo}
             analyzing={analyzing}
             submitting={submitting}
+            savingDraft={savingDraft}
             onPatchLlamada={onPatchLlamada}
+            onRegisterFlush={onRegisterFlush}
             onDerivar={onDerivar}
             onDescartar={onDescartar}
           />

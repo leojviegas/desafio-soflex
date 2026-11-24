@@ -19,12 +19,14 @@ import type {
 export class ApiClientError extends Error {
   readonly status: number;
   readonly details?: unknown;
+  readonly code?: string;
 
-  constructor(message: string, status: number, details?: unknown) {
+  constructor(message: string, status: number, details?: unknown, code?: string) {
     super(message);
     this.name = 'ApiClientError';
     this.status = status;
     this.details = details;
+    this.code = code;
   }
 }
 
@@ -36,25 +38,47 @@ export class HttpCopilotApiClient implements CopilotApiClient {
   }
 
   private async request<T>(path: string, init?: RequestInit): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(init?.headers ?? {}),
-      },
-      ...init,
-    });
+    const headers: Record<string, string> = {};
+    if (init?.body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    let response: Response;
+    try {
+      response = await fetch(`${this.baseUrl}${path}`, {
+        ...init,
+        headers: {
+          ...headers,
+          ...(init?.headers ?? {}),
+        },
+      });
+    } catch {
+      throw new ApiClientError(
+        'No se pudo conectar con el servidor del copiloto. Verificá que el backend esté en ejecución.',
+        0,
+        undefined,
+        'NETWORK_ERROR',
+      );
+    }
 
     if (!response.ok) {
       let message = `Error HTTP ${response.status}`;
       let details: unknown;
+      let code: string | undefined;
       try {
-        const body = (await response.json()) as { message?: string; error?: string; details?: unknown };
-        message = body.message ?? body.error ?? message;
+        const body = (await response.json()) as {
+          message?: string;
+          error?: string;
+          details?: unknown;
+          code?: string;
+        };
+        message = body.error ?? body.message ?? message;
         details = body.details;
+        code = body.code;
       } catch {
         // ignore JSON parse failure on non-JSON error body
       }
-      throw new ApiClientError(message, response.status, details);
+      throw new ApiClientError(message, response.status, details, code);
     }
 
     return (await response.json()) as T;
@@ -100,9 +124,13 @@ export class HttpCopilotApiClient implements CopilotApiClient {
     });
   }
 
-  analizarLlamada(id: string): Promise<Llamada> {
+  analizarLlamada(
+    id: string,
+    opciones?: { simularDegradado?: boolean },
+  ): Promise<Llamada> {
     return this.request<Llamada>(`/llamadas/${encodeURIComponent(id)}/analizar`, {
       method: 'POST',
+      ...(opciones !== undefined ? { body: JSON.stringify(opciones) } : {}),
     });
   }
 
