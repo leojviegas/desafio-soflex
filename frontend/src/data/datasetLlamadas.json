@@ -1,0 +1,675 @@
+[
+  {
+    "idRegistro": "SFX-REC-2026-001",
+    "timestampLlamada": "2026-10-14T08:15:22",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Incendio en Comercio Gastronómico",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911 emergencias, ¿dónde es su urgencia? Llamante: Hola, por favor manden a los bomberos ya! En la pizzería de Av. Corrientes 1540 casi Montevideo, se prendió fuego la campana de la cocina y se está metiendo el humo negro al salón, la gente salió corriendo a la calle pero adentro quedó el cocinero!",
+    "calleDetectada": "Av. Corrientes",
+    "alturaDetectada": "1540",
+    "interseccionDetectada": "Montevideo y Paraná",
+    "barrioComuna": "San Nicolás (Comuna 1)",
+    "riesgosDetectados": [
+      "Grasa inflamada en conductos",
+      "personas atrapadas",
+      "línea de gas comercial"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Autobomba de ataque rápido",
+      "1x Unidad de Rescate",
+      "1x Ambulancia SAME preventiva"
+    ],
+    "notasOperativasDespacho": "Incendio en cocina de pizzería sobre Corrientes. Humo denso. Empleado posiblemente atrapado en sector fondo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-002",
+    "timestampLlamada": "2026-10-14T09:42:05",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Incendio de Contenedor de Residuos",
+    "prioridadSugerida": "P3",
+    "transcripcionCruda": "Operador: Emergencias de la Ciudad, buen día. Llamante: Sí, mirá, acá en Scalabrini Ortiz al 800, entre Vera y Velasco, prendieron fuego un contenedor negro de basura. Las llamas ya tienen como dos metros y hay un auto estacionado pegado que se le está derritiendo la óptica.",
+    "calleDetectada": "Av. Raúl Scalabrini Ortiz",
+    "alturaDetectada": "800",
+    "interseccionDetectada": "Vera y Velasco",
+    "barrioComuna": "Villa Crespo (Comuna 15)",
+    "riesgosDetectados": [
+      "Propagación a rodado particular",
+      "humo tóxico plástico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Cisterna liviana de Bomberos",
+      "1x Móvil Comisaría Vecinal 15B"
+    ],
+    "notasOperativasDespacho": "Contenedor en llamas con peligro de propagación a rodado estacionado en vía pública."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-003",
+    "timestampLlamada": "2026-10-14T11:10:14",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Rescate de Personas en Ascensor Trancado",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 911, ¿en qué lo asisto? Llamante: Hola, soy el encargado de un edificio en Billinghurst 1845. Se trabó el ascensor principal entre los pisos 5 y 6. Hay cuatro personas adentro, una mujer embarazada y un nene chiquito, y se les cortó la luz de cabina, están entrando en pánico.",
+    "calleDetectada": "Billinghurst",
+    "alturaDetectada": "1845",
+    "interseccionDetectada": "Juncal y French",
+    "barrioComuna": "Recoleta (Comuna 2)",
+    "riesgosDetectados": [
+      "Claustrofobia",
+      "crisis de ansiedad en embarazada",
+      "riesgo mecánico por maniobras inexpertas"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Móvil de Rescate de Bomberos",
+      "1x Ambulancia SAME de apoyo psicológico/control"
+    ],
+    "notasOperativasDespacho": "Ascensor detenido entre pisos 5 y 6 con 4 atrapados (incluye gestante y menor). Pánico en cabina."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-004",
+    "timestampLlamada": "2026-10-14T13:05:40",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Fuego en Pastizales de Parque Público",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: Defensa Civil, dígame. Llamante: Buenas tardes, estoy corriendo por el Parque Indoamericano en Soldati, cerca de Escalada y Castañares, y hay una quema grande de pastos secos y basura que avanza hacia el sector de juegos infantiles.",
+    "calleDetectada": "Av. Castañares",
+    "alturaDetectada": "4500 (esquina)",
+    "interseccionDetectada": "Av. Escalada",
+    "barrioComuna": "Villa Soldati (Comuna 8)",
+    "riesgosDetectados": [
+      "Propagación rápida por viento",
+      "humo sobre vía rápida",
+      "presencia de menores"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Autobomba Forestal / Ataque Rápido de Bomberos de la Ciudad"
+    ],
+    "notasOperativasDespacho": "Foco de pastizales en Parque Indoamericano con viento hacia sector recreativo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-005",
+    "timestampLlamada": "2026-10-14T14:18:50",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "ACCIDENTE_VIAL",
+    "descripcionIncidente": "Colisión Vehículo vs Motovehículo",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿cuál es su emergencia? Llamante: Chocó un taxi con una moto en Av. San Juan y Entre Ríos. El delivery de la moto voló por arriba del capot, está tirado en el carril central, tiene casco puesto pero no se mueve y le duele mucho la pierna que parece fracturada.",
+    "calleDetectada": "Av. San Juan",
+    "alturaDetectada": "1800 (esquina)",
+    "interseccionDetectada": "Av. Entre Ríos",
+    "barrioComuna": "Constitución (Comuna 1)",
+    "riesgosDetectados": [
+      "Posible trauma raquimedular",
+      "shock por fractura expuesta",
+      "tránsito rápido en avenida"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia SAME Código Rojo",
+      "1x Móvil Tránsito Policía de la Ciudad para corte"
+    ],
+    "notasOperativasDespacho": "Taxi colisiona moto en cruce semaforizado. Conductor de moto tendido en calzada con traumatismo en miembro inferior."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-006",
+    "timestampLlamada": "2026-10-14T15:30:12",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "ACCIDENTE_VIAL",
+    "descripcionIncidente": "Choque en Cadena en Autopista Urbana",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911 emergencias. Llamante: Choque en cadena en la Autopista 25 de Mayo, mano a Provincia, a la altura de la bajada de Boedo. Son tres autos y una utilitaria. Un auto quedó cruzado en el carril rápido y hay humo saliendo del motor. La gente está saliendo mareada de los autos.",
+    "calleDetectada": "Autopista 25 de Mayo (AU 1)",
+    "alturaDetectada": "Km 4.5 (altura Boedo)",
+    "interseccionDetectada": "Bajada Boedo / Castro Barros",
+    "barrioComuna": "Boedo (Comuna 5)",
+    "riesgosDetectados": [
+      "Colisión secundaria a alta velocidad",
+      "derrame en autopista elevada",
+      "niebla de humo"
+    ],
+    "recursosRecomendadosDespacho": [
+      "2x Ambulancias SAME",
+      "1x Móvil de Seguridad Vial AUSA",
+      "1x Dotación Bomberos"
+    ],
+    "notasOperativasDespacho": "Colisión múltiple AU 25 de Mayo sentido sudoeste. Bloqueo de carril rápido y central."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-007",
+    "timestampLlamada": "2026-10-14T16:45:00",
+    "origenReporte": "APP_CIUDADANA",
+    "categoria": "ACCIDENTE_VIAL",
+    "descripcionIncidente": "Camión con Carga Excedida Atascado en Bajo Viaducto",
+    "prioridadSugerida": "P3",
+    "transcripcionCruda": "Operador: Monitoreo Urbano, buenas tardes. Llamante: Reporto que un camión con acoplado quiso pasar por el bajo puente de Av. Elcano y las vías del Mitre y quedó encajado de punta. Rompió el cartel de altura máxima y está trabando toda la circulación hacia Belgrano R.",
+    "calleDetectada": "Av. Elcano",
+    "alturaDetectada": "3100",
+    "interseccionDetectada": "Superí y Freire",
+    "barrioComuna": "Colegiales (Comuna 13)",
+    "riesgosDetectados": [
+      "Compromiso potencial de puente ferroviario",
+      "colapso de tránsito zonal"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Grúa pesada de Tránsito",
+      "1x Cuadrilla de Infraestructura / Trenes Argentinos",
+      "Móvil Comisaría"
+    ],
+    "notasOperativasDespacho": "Rodado pesado encajado en puente de tren. Tránsito totalmente colapsado. Sin heridos aparentes."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-008",
+    "timestampLlamada": "2026-10-14T17:20:19",
+    "origenReporte": "TELEFONIA_107",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Descompensación por Golpe de Calor en Estación de Subte",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: SAME 107, ¿cuál es el paciente? Llamante: Hola, soy personal de Metrovías en la estación Carlos Pellegrini de la Línea B. En el andén dirección a Alem se desmayó una señora de unos 50 años. El andén está que arde de calor. La señora recuperó la conciencia pero está blanca como un papel, transpira frío y dice que no siente las piernas.",
+    "calleDetectada": "Carlos Pellegrini (Andén Subte Línea B)",
+    "alturaDetectada": "S/N (Estación Subterránea)",
+    "interseccionDetectada": "Av. Corrientes y Carlos Pellegrini",
+    "barrioComuna": "San Nicolás (Comuna 1)",
+    "riesgosDetectados": [
+      "Lipotimia severa",
+      "deshidratación",
+      "posible traumatismo de cráneo en caída"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Unidad Móvil de Auxilio SAME con acceso por boca de Corrientes"
+    ],
+    "notasOperativasDespacho": "Mujer 50 años con síncope en andén subterráneo. Lúcida pero hipotensa. Personal de estación en el lugar."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-009",
+    "timestampLlamada": "2026-10-14T18:02:44",
+    "origenReporte": "TELEFONIA_107",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Crisis Asmática Aguda en Domicilio",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: SAME, indique localidad y dirección. Llamante: Por favor, es mi hija de 8 años, estamos en Av. Directorio 2140 3ro C. Tuvo un broncoespasmo severo, le dimos los disparos de salbutamol pero no le entra el aire, tiene tiraje en las costillas y los labios morados!",
+    "calleDetectada": "Av. Directorio",
+    "alturaDetectada": "2140",
+    "interseccionDetectada": "Carabobo y Camacuá",
+    "barrioComuna": "Flores (Comuna 7)",
+    "riesgosDetectados": [
+      "Insuficiencia respiratoria inminente",
+      "hipoxemia pediátrica"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia SAME Pediátrico con equipamiento de oxigenoterapia de alto flujo"
+    ],
+    "notasOperativasDespacho": "Código Rojo Pediátrico. Niña 8 años con estatus asmático refractario a medicación."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-010",
+    "timestampLlamada": "2026-10-14T19:15:30",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Traumatismo por Caída en Adulto Mayor",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 911 emergencias. Llamante: Hola, mi mamá de 82 años tropezó con un desnivel en la vereda de Cabildo 3700, casi Jaramillo. Se golpeó muy fuerte la cadera izquierda y el brazo, no se puede incorporar y llora de dolor. Hay varios vecinos ayudándola.",
+    "calleDetectada": "Av. Cabildo",
+    "alturaDetectada": "3700",
+    "interseccionDetectada": "Jaramillo y Manuela Pedraza",
+    "barrioComuna": "Saavedra (Comuna 12)",
+    "riesgosDetectados": [
+      "Fractura de cuello de fémur en paciente geronte",
+      "shock álgico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia SAME con tabla de inmovilización y collar cervical"
+    ],
+    "notasOperativasDespacho": "Caída en vía pública mujer 82 años. Sospecha de fractura de cadera. Paciente contenida en vereda."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-011",
+    "timestampLlamada": "2026-10-14T20:25:11",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "DEFENSA_CIVIL",
+    "descripcionIncidente": "Árbol Caído de Gran Porte sobre Tendido y Vehículos",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: Guardia de Auxilio 103, buenas noches. Llamante: Hola, acaba de colapsar un tipa añoso en Av. Forest al 1200, entre Virrey Arredondo y Virrey Loreto. Cortó los cables de media tensión, aplastó el techo de dos camionetas estacionadas y la copa ocupa toda la calzada, nadie puede pasar.",
+    "calleDetectada": "Av. Forest",
+    "alturaDetectada": "1200",
+    "interseccionDetectada": "Virrey Arredondo y Virrey Loreto",
+    "barrioComuna": "Colegiales (Comuna 13)",
+    "riesgosDetectados": [
+      "Riesgo de electrocución",
+      "bloqueo de vía para servicios de emergencia",
+      "aplastamiento"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Cuadrilla de Desobstrucción de Arbolado",
+      "1x Móvil Edenor / Edesur Urgencias",
+      "1x Móvil de Tránsito"
+    ],
+    "notasOperativasDespacho": "Árbol de 15 metros caído. Corte total de Forest. Cables caídos sobre vehículos. Sin heridos confirmados."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-012",
+    "timestampLlamada": "2026-10-14T21:40:55",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "DEFENSA_CIVIL",
+    "descripcionIncidente": "Fuga de Gas por Rotura de Caño en Vereda",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: Emergencias de la Ciudad, ¿dónde es? Llamante: En Thames 1900, entre Nicaragua y Costa Rica. Una cuadrilla de fibra óptica estaba picando la vereda y agujerearon un caño de gas. Hay un soplido fuertísimo que sale de la zanja y el olor a gas ya entra a las casas de los vecinos!",
+    "calleDetectada": "Thames",
+    "alturaDetectada": "1900",
+    "interseccionDetectada": "Nicaragua y Costa Rica",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Peligro inminente de explosión por acumulación",
+      "intoxicación de vecinos"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Dotación de Bomberos de la Ciudad (Línea de espuma)",
+      "Alerta inmediata a Metrogas Emergencias",
+      "Vallado policial"
+    ],
+    "notasOperativasDespacho": "Fuga de media presión en vereda. Cuadrilla en obra. Reclamo urgente derivado a empresa distribuidora y bomberos."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-013",
+    "timestampLlamada": "2026-10-14T22:50:33",
+    "origenReporte": "APP_CIUDADANA",
+    "categoria": "SERVICIOS_PUBLICOS",
+    "descripcionIncidente": "Socavón en Pavimento por Rotura de Colector Cloacal",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: Guardia Urbana, buenas noches. Llamante: Estoy reportando desde Av. Juan B. Justo y Muñecas. En el carril del Metrobus se abrió un pozo de unos dos metros de diámetro con agua fluyendo abajo. Un colectivo casi se va adentro de la fosa.",
+    "calleDetectada": "Av. Juan B. Justo",
+    "alturaDetectada": "4200 (esquina)",
+    "interseccionDetectada": "Muñecas y Murillo",
+    "barrioComuna": "Villa Crespo (Comuna 15)",
+    "riesgosDetectados": [
+      "Colapso de calzada pesada",
+      "caída de unidades de pasajeros"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Unidad de Tránsito para clausura de carril",
+      "AySA Cuadrilla de Redes",
+      "Defensa Civil"
+    ],
+    "notasOperativasDespacho": "Hundimiento severo de calzada en carril central. Desvío de líneas de Metrobus Juan B. Justo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-014",
+    "timestampLlamada": "2026-10-15T00:15:10",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "DEFENSA_CIVIL",
+    "descripcionIncidente": "Desprendimiento de Marquesina Metálica en Altura",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: Defensa Civil, dígame. Llamante: Hola, por el viento que se levantó recién se desprendieron dos anclajes de una marquesina de chapa de 6 metros en Av. Rivadavia 6300, casi Membrillar. Quedó colgada de un solo perno balanceándose sobre la vereda.",
+    "calleDetectada": "Av. Rivadavia",
+    "alturaDetectada": "6300",
+    "interseccionDetectada": "Membrillar y Rivera Indarte",
+    "barrioComuna": "Flores (Comuna 7)",
+    "riesgosDetectados": [
+      "Caída de elemento contundente de 100 kg desde 4 metros de altura"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Móvil de Guardia de Auxilio con escalera mecánica",
+      "Balizamiento preventivo"
+    ],
+    "notasOperativasDespacho": "Estructura publicitaria con riesgo de desprendimiento inminente sobre acera comercial concurrida."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-015",
+    "timestampLlamada": "2026-10-15T01:30:45",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "CONVIVENCIA_SEGURIDAD",
+    "descripcionIncidente": "Disputa Colectiva en Vía Pública con Daño Material",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 911, ¿su emergencia? Llamante: Hay una pelea de un grupo de jóvenes a la salida de un bar en Serrano y Honduras, en Plaza Serrano. Se están tirando sillas plásticas y botellas, rompieron la vidriera de un kiosco y hay un chico con un raspón grande en el brazo.",
+    "calleDetectada": "Serrano",
+    "alturaDetectada": "1500 (esquina)",
+    "interseccionDetectada": "Honduras y Jorge Luis Borges",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Lesiones por elementos cortantes",
+      "daño al patrimonio comercial"
+    ],
+    "recursosRecomendadosDespacho": [
+      "2x Patrulleros de Comisaría Vecinal 14A",
+      "1x Móvil de Tránsito"
+    ],
+    "notasOperativasDespacho": "Disturbios en polo gastronómico. Rotura de vidriera comercial. Sin armas de fuego reportadas."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-016",
+    "timestampLlamada": "2026-10-15T02:45:18",
+    "origenReporte": "TELEFONIA_147",
+    "categoria": "CONVIVENCIA_SEGURIDAD",
+    "descripcionIncidente": "Canino de Raza Peligrosa Suelto y Agresivo en Plaza",
+    "prioridadSugerida": "P3",
+    "transcripcionCruda": "Operador: 147 Atención Ciudadana. Llamante: Buen día, en Plaza Almagro, Sarmiento y Bulnes, hay un perro dogo o pitbull sin bozal ni correa que atacó a otro perrito y los dueños se fueron. El perro está alterado gruñendo a cualquiera que entra al canil.",
+    "calleDetectada": "Sarmiento",
+    "alturaDetectada": "3900 (esquina)",
+    "interseccionDetectada": "Bulnes y Salguero",
+    "barrioComuna": "Almagro (Comuna 5)",
+    "riesgosDetectados": [
+      "Mordedura en extremidades de transeúntes o menores"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Móvil de la Unidad de Sanidad y Protección Animal",
+      "Personal policial de custodia"
+    ],
+    "notasOperativasDespacho": "Canino agresivo sin custodio en espacio público recreativo. Sin víctimas humanas al momento."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-017",
+    "timestampLlamada": "2026-10-15T07:12:00",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Incendio en Tablero Eléctrico de Escuela",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿cuál es la emergencia? Llamante: Hola, soy la directora de la escuela primaria en Yerbal 2450. En el hall de entrada empezó a salir chispas y humo negro con olor a plástico del tablero central de trifásica. Ya sonó la alarma y estamos iniciando la evacuación al patio abierto con los 180 chicos.",
+    "calleDetectada": "Yerbal",
+    "alturaDetectada": "2450",
+    "interseccionDetectada": "Artigas y Fray Cayetano Rodríguez",
+    "barrioComuna": "Flores (Comuna 7)",
+    "riesgosDetectados": [
+      "Riesgo eléctrico de alta tensión",
+      "evacuación masiva de menores",
+      "humo tóxico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Autobomba Bomberos",
+      "1x Móvil Edesur Corte Inmediato",
+      "2x Ambulancias SAME preventivas"
+    ],
+    "notasOperativasDespacho": "Incendio eléctrico en establecimiento educativo. Evacuación general en desarrollo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-018",
+    "timestampLlamada": "2026-10-15T08:35:14",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "ACCIDENTE_VIAL",
+    "descripcionIncidente": "Ciclista Embestido por Transporte de Pasajeros",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿dónde ocurre el hecho? Llamante: En la ciclovía de Billinghurst y Gorriti. Un colectivo dobló sin mirar y tiró al piso a un chico en monopatín o bicicleta. El chico quedó debajo del estribo, está consciente pero no puede mover la pierna derecha y el colectivo frenó de golpe atravesado en la calle.",
+    "calleDetectada": "Billinghurst",
+    "alturaDetectada": "1100 (esquina)",
+    "interseccionDetectada": "Gorriti y Honduras",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Atrapamiento mecánico",
+      "politraumatismo en miembro inferior"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia SAME Código Rojo",
+      "1x Unidad de Rescate de Bomberos",
+      "Móvil Comisaría 14A"
+    ],
+    "notasOperativasDespacho": "Siniestro vial en ciclovía con transporte público. Ciclista aprisionado en estribo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-019",
+    "timestampLlamada": "2026-10-15T09:50:28",
+    "origenReporte": "TELEFONIA_107",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Reacción Alérgica Severa (Anafilaxia)",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: SAME 107. Llamante: Necesito una ambulancia urgente en Honduras 4800, en un restaurante. Un comensal comió un postre con nueces y es alérgico grave. Se le está cerrando la garganta, tiene la cara totalmente hinchada, ronchas rojas en el cuello y no puede tragar la saliva!",
+    "calleDetectada": "Honduras",
+    "alturaDetectada": "4800",
+    "interseccionDetectada": "Armenia y Gurruchaga",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Edema de glotis fulminante",
+      "shock anafiláctico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Unidad de Terapia Intensiva Móvil SAME con medicación de vía aérea avanzada"
+    ],
+    "notasOperativasDespacho": "Código Rojo por shock anafiláctico en local gastronómico. Compromiso de vía respiratoria alta."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-020",
+    "timestampLlamada": "2026-10-15T11:00:15",
+    "origenReporte": "TELEFONIA_147",
+    "categoria": "SERVICIOS_PUBLICOS",
+    "descripcionIncidente": "Cables Cortados con Descarga Eléctrica Activa en Vereda",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 147 Atención de la Ciudad. Llamante: Por favor, en Warnes 650, casi Darwin, un camión de mudanzas enganchó una manguera de cables aéreos y arrancó dos postes de madera. Hay un cable grueso chispeando contra el asfalto mojado y humo saliendo del suelo.",
+    "calleDetectada": "Av. Warnes",
+    "alturaDetectada": "650",
+    "interseccionDetectada": "Darwin y Humboldt",
+    "barrioComuna": "Villa Crespo (Comuna 15)",
+    "riesgosDetectados": [
+      "Electrocución por tensión de paso en calzada húmeda",
+      "incendio secundario"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Móvil Policial para vallado perimetral estricto",
+      "Cuadrilla Urgencia Edenor"
+    ],
+    "notasOperativasDespacho": "Cable de media tensión activo sobre pavimento mojado. Riesgo letal para transeúntes."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-021",
+    "timestampLlamada": "2026-10-15T12:20:40",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "DEFENSA_CIVIL",
+    "descripcionIncidente": "Anegamiento Severo con Vehículos Varados por Temporal",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 103 Guardia de Auxilio. Llamante: En el viaducto de Salguero y las vías de Figueroa Alcorta se inundó todo el bajo nivel. El agua llega a la mitad de las puertas de tres autos que intentaron cruzar y se pararon los motores. Los conductores están arriba de los techos esperando rescate.",
+    "calleDetectada": "Jerónimo Salguero",
+    "alturaDetectada": "3400 (bajo viaducto)",
+    "interseccionDetectada": "Av. Figueroa Alcorta",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Succión por alcantarillas abiertas bajo agua",
+      "choque térmico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Bote semirrígido de Bomberos",
+      "1x Bomba de desagote pluvial de Defensa Civil"
+    ],
+    "notasOperativasDespacho": "Bajo nivel anegado por precipitaciones intensas. 3 rodados varados con ocupantes en techos."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-022",
+    "timestampLlamada": "2026-10-15T13:45:00",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Derrame de Combustible por Volcadura de Cisterna",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿dónde es la emergencia? Llamante: En Av. 27 de Febrero y Puente Alsina, un camión cisterna chico volcó sobre la rotonda. Está perdiendo gasoil a chorros hacia el cordón cuneta y el olor es insoportable. No hay fuego por ahora pero los autos siguen pasando cerca.",
+    "calleDetectada": "Av. 27 de Febrero",
+    "alturaDetectada": "S/N (Rotonda Puente Alsina)",
+    "interseccionDetectada": "Av. Sáenz",
+    "barrioComuna": "Nueva Pompeya (Comuna 4)",
+    "riesgosDetectados": [
+      "Inflamabilidad masiva",
+      "contaminación de cuenca hídrica",
+      "calzada resbaladiza extrema"
+    ],
+    "recursosRecomendadosDespacho": [
+      "2x Dotaciones de Bomberos con camión cisterna de espuma química",
+      "Tránsito corte total"
+    ],
+    "notasOperativasDespacho": "Vuelco de camión con derrame de hidrocarburos sobre arteria pesada. Operativo de contención."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-023",
+    "timestampLlamada": "2026-10-15T15:10:12",
+    "origenReporte": "TELEFONIA_107",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Fractura Expuesta en Práctica Deportiva",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: SAME, ¿cuál es el paciente? Llamante: Hola, en un predio de canchas de fútbol 5 en Av. Belgrano 3100, en Balvanera. Un chico de 24 años chocó disputando la pelota y tiene una fractura expuesta de tibia y peroné. Se ve el hueso asomando, está sangrando bastante y gritando de dolor.",
+    "calleDetectada": "Av. Belgrano",
+    "alturaDetectada": "3100",
+    "interseccionDetectada": "Catamarca y La Rioja",
+    "barrioComuna": "Balvanera (Comuna 3)",
+    "riesgosDetectados": [
+      "Infección ósea aguda",
+      "hemorragia moderada",
+      "shock hipovolémico/álgico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia SAME con set de férulas inflables y analgesia intravenosa"
+    ],
+    "notasOperativasDespacho": "Traumatismo grave en miembro inferior durante actividad deportiva. Consciente con dolor agudo."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-024",
+    "timestampLlamada": "2026-10-15T16:35:22",
+    "origenReporte": "TELEFONIA_147",
+    "categoria": "SERVICIOS_PUBLICOS",
+    "descripcionIncidente": "Semáforos Fuera de Servicio en Cruce Crítico de Avenidas",
+    "prioridadSugerida": "P3",
+    "transcripcionCruda": "Operador: 147 Ciudad, buen día. Llamante: En la esquina de Av. Juan de Garay y Av. Boedo se apagó toda la batería de semáforos hace 40 minutos. Es un caos absoluto, colectivos y camiones cruzando a ciegas, casi atropellan a dos maestras con chicos de escuela.",
+    "calleDetectada": "Av. Juan de Garay",
+    "alturaDetectada": "3600 (esquina)",
+    "interseccionDetectada": "Av. Boedo",
+    "barrioComuna": "Boedo (Comuna 5)",
+    "riesgosDetectados": [
+      "Siniestro vial grave por velocidad cruzada",
+      "riesgo para transeúntes escolares"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Pareja de Agentes de Tránsito para ordenamiento manual",
+      "Cuadrilla Técnica de Semaforización"
+    ],
+    "notasOperativasDespacho": "Intersección de dos avenidas primarias con corte de señalización luminosa. Prioridad media-alta en hora pico."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-025",
+    "timestampLlamada": "2026-10-15T18:00:10",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Explosión de Batería de Litio en Local de Monopatines",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿su emergencia? Llamante: Auxilio! En un taller de reparación de monopatines eléctricos en Warnes 1400 explotó una batería de litio mientras cargaba. Hizo una llamarada enorme blanca, despidió un humo picante blanco que no se puede respirar y hay fuego en los estantes con más baterías!",
+    "calleDetectada": "Av. Warnes",
+    "alturaDetectada": "1400",
+    "interseccionDetectada": "Av. Dorrego y Concepción Arenal",
+    "barrioComuna": "Chacarita (Comuna 15)",
+    "riesgosDetectados": [
+      "Fuego de clase D / térmico de litio",
+      "toxicidad pulmonar severa por vapores de ácido fluorhídrico"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Dotación de Bomberos especializada en Materiales Peligrosos (Hazmat)",
+      "SAME Triage"
+    ],
+    "notasOperativasDespacho": "Fuego químico por fuga térmica de celdas de litio. Local comercial cerrado. Peligro de explosiones en cadena."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-026",
+    "timestampLlamada": "2026-10-15T19:22:40",
+    "origenReporte": "TELEFONIA_107",
+    "categoria": "EMERGENCIA_MEDICA",
+    "descripcionIncidente": "Convulsión Tónico-Clónica en Restaurante",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: SAME 107. Llamante: Hola, en un bodegón de Av. San Juan 2800 en San Cristóbal. Un hombre joven de unos 30 años empezó a temblar en la mesa, se cayó de la silla al piso y está convulsionando con sacudidas fuertes en brazos y piernas, tiene espuma en la boca y no responde.",
+    "calleDetectada": "Av. San Juan",
+    "alturaDetectada": "2800",
+    "interseccionDetectada": "Catamarca y Deán Funes",
+    "barrioComuna": "San Cristóbal (Comuna 3)",
+    "riesgosDetectados": [
+      "Estatus epiléptico",
+      "broncoaspiración",
+      "traumatismo encéfalo craneano secundario"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Ambulancia de Alta Complejidad SAME con anticonvulsivantes IV"
+    ],
+    "notasOperativasDespacho": "Crisis convulsiva activa en local público. Indicaciones de seguridad transmitidas al llamante."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-027",
+    "timestampLlamada": "2026-10-15T20:15:33",
+    "origenReporte": "TELEFONIA_103",
+    "categoria": "DEFENSA_CIVIL",
+    "descripcionIncidente": "Derrumbe Parcial de Medianera en Demolición",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 103 Guardia de Auxilio. Llamante: En una obra en construcción de Paraguay al 3800 entre Salguero y Vidt. Se desmoronó un paño de pared medianera hacia el patio del edificio vecino. Por suerte no había nadie en el patio pero tembló todo el piso y quedaron ladrillos colgando con riesgo de seguir cayendo.",
+    "calleDetectada": "Paraguay",
+    "alturaDetectada": "3800",
+    "interseccionDetectada": "Salguero y Vidt",
+    "barrioComuna": "Palermo (Comuna 14)",
+    "riesgosDetectados": [
+      "Desmoronamiento residual",
+      "daño estructural colateral en inmueble habitado"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Cuadrilla de Arquitectos inspectores de Guardia de Auxilio",
+      "1x Móvil Comisaría para clausura"
+    ],
+    "notasOperativasDespacho": "Derrumbe de mampostería medianera hacia patio lindero. Requiere inspección urgente de apuntalamiento."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-028",
+    "timestampLlamada": "2026-10-15T21:40:02",
+    "origenReporte": "TELEFONIA_147",
+    "categoria": "SERVICIOS_PUBLICOS",
+    "descripcionIncidente": "Rotura de Caño Maestro de Agua con Inundación de Calzada",
+    "prioridadSugerida": "P2",
+    "transcripcionCruda": "Operador: 147 Ciudad de Buenos Aires. Llamante: En Av. Montes de Oca al 1100, casi Rocha en Barracas. Reventó un caño maestro de agua potable en la vereda. Sale un chorro de agua a presión de cuatro metros de alto que inunda toda la avenida de vereda a vereda y está entrando agua a dos subsuelos de garaje.",
+    "calleDetectada": "Av. Montes de Oca",
+    "alturaDetectada": "1100",
+    "interseccionDetectada": "Rocha y Gral. Hornos",
+    "barrioComuna": "Barracas (Comuna 4)",
+    "riesgosDetectados": [
+      "Electrocución en recintos inundados",
+      "socavón bajo vereda por arrastre de áridos"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Alerta Roja a AySA Operaciones de Válvulas Maestras",
+      "1x Móvil Tránsito para desvío",
+      "Bomberos"
+    ],
+    "notasOperativasDespacho": "Rotura mayor en red troncal de distribución de agua. Grave afectación a subsuelos y calzada."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-029",
+    "timestampLlamada": "2026-10-15T22:55:18",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "ACCIDENTE_VIAL",
+    "descripcionIncidente": "Vuelco de Vehículo Particular con Conductor Atrapado",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿dónde es el accidente? Llamante: En Av. Lugones altura Parque Norte, sentido hacia el centro. Un auto perdió el control, mordió el guardarraíl y quedó volcado con las ruedas para arriba en la zanja de desagüe. El conductor está atrapado por el cinturón de seguridad colgando boca abajo y no puede abrir la puerta.",
+    "calleDetectada": "Av. Leopoldo Lugones",
+    "alturaDetectada": "Km 7 (altura Parque Norte)",
+    "interseccionDetectada": "Puente Scalabrini Ortiz",
+    "barrioComuna": "Belgrano (Comuna 13)",
+    "riesgosDetectados": [
+      "Atrapamiento en posición invertida (asfixia postural)",
+      "riesgo de incendio por derrame en escape caliente"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Unidad de Rescate de Bomberos con tijeras hidráulicas de corte",
+      "1x SAME Avanzado",
+      "Móvil Autopistas AUSA"
+    ],
+    "notasOperativasDespacho": "Vuelco solitario en autopista Lugones. Conductor atrapado dentro de habitáculo deformado."
+  },
+  {
+    "idRegistro": "SFX-REC-2026-030",
+    "timestampLlamada": "2026-10-15T23:40:50",
+    "origenReporte": "TELEFONIA_911",
+    "categoria": "INCENDIO_RESCATE",
+    "descripcionIncidente": "Principio de Incendio en Subestación Transformadora",
+    "prioridadSugerida": "P1",
+    "transcripcionCruda": "Operador: 911, ¿dónde es la emergencia? Llamante: En la subestación eléctrica que está en Av. Independencia 2200 casi Pasco. Hubo un zumbido ensordecedor, una explosión sorda y empezó a salir un humo gris denso y olor a aceite quemado por las rejillas de ventilación. Se cortó la luz en cuatro manzanas a la redonda.",
+    "calleDetectada": "Av. Independencia",
+    "alturaDetectada": "2200",
+    "interseccionDetectada": "Pasco y Rincón",
+    "barrioComuna": "San Cristóbal (Comuna 3)",
+    "riesgosDetectados": [
+      "Arco voltaico de alta tensión",
+      "combustión de aceite refrigerante dieléctrico",
+      "apagón masivo"
+    ],
+    "recursosRecomendadosDespacho": [
+      "1x Dotación Bomberos especializada en incendios eléctricos clase C",
+      "Brigada de Alta Tensión Edesur"
+    ],
+    "notasOperativasDespacho": "Explosión y fuego en cámara transformadora de media tensión. Corte eléctrico generalizado en San Cristóbal."
+  }
+]

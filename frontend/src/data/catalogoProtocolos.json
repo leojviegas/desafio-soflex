@@ -1,0 +1,1407 @@
+{
+  "preguntasUniversales": [
+    {
+      "id": 1,
+      "subcategoriaId": null,
+      "texto": "¿Cuál es la dirección exacta, altura o intersección del incidente?",
+      "critica": true,
+      "pistasMock": [
+        "av.",
+        "avenida",
+        "calle",
+        "esquina",
+        "casi",
+        "entre",
+        "al ",
+        "autopista",
+        "km",
+        "plaza",
+        "estacion"
+      ]
+    },
+    {
+      "id": 2,
+      "subcategoriaId": null,
+      "texto": "¿Usted o las personas cercanas se encuentran en un lugar seguro en este momento?",
+      "critica": true,
+      "pistasMock": [
+        "salio corriendo",
+        "evacuacion",
+        "evacuando",
+        "patio abierto",
+        "vereda de enfrente",
+        "lugar seguro",
+        "techos",
+        "atrapado",
+        "atrapada",
+        "adentro"
+      ]
+    }
+  ],
+  "categorias": [
+    {
+      "id": 1,
+      "nombre": "INCENDIO_RESCATE",
+      "etiqueta": "Incendio y Rescate",
+      "subcategorias": [
+        {
+          "id": 1,
+          "categoriaId": 1,
+          "nombre": "incendio_estructural",
+          "etiqueta": "Incendio estructural",
+          "criterio": "Fuego o humo en vivienda, comercio gastronómico, local o edificio.",
+          "preguntas": [
+            {
+              "id": 3,
+              "subcategoriaId": 1,
+              "texto": "¿Hay personas atrapadas en el interior?",
+              "critica": true,
+              "pistasMock": [
+                "atrapad",
+                "quedo adentro",
+                "adentro quedo",
+                "no puede salir",
+                "salio corriendo"
+              ]
+            },
+            {
+              "id": 4,
+              "subcategoriaId": 1,
+              "texto": "¿Hay garrafas o cañería de gas activa?",
+              "critica": true,
+              "pistasMock": [
+                "garrafa",
+                "gas",
+                "llave de gas",
+                "cocina",
+                "campana"
+              ]
+            },
+            {
+              "id": 5,
+              "subcategoriaId": 1,
+              "texto": "¿El humo o el fuego afecta a inmuebles linderos o pisos superiores?",
+              "critica": false,
+              "pistasMock": [
+                "lindero",
+                "piso superior",
+                "pisos superiores",
+                "edificio",
+                "salon",
+                "humo negro"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 1,
+              "subcategoriaId": 1,
+              "texto": "No reingresar al local o vivienda por ningún motivo.",
+              "critica": true
+            },
+            {
+              "id": 2,
+              "subcategoriaId": 1,
+              "texto": "Mantener a las personas en la vereda de enfrente y cortar la llave de gas solo si es seguro.",
+              "critica": true
+            },
+            {
+              "id": 3,
+              "subcategoriaId": 1,
+              "texto": "Cerrar puertas al salir para retardar la propagación del humo.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "categoriaId": 1,
+          "nombre": "incendio_electrico_litio",
+          "etiqueta": "Incendio eléctrico o baterías de litio",
+          "criterio": "Fuego, chispas o explosión en tableros eléctricos, subestaciones transformadoras o baterías de litio.",
+          "preguntas": [
+            {
+              "id": 6,
+              "subcategoriaId": 2,
+              "texto": "¿El edificio o sector cuenta con corte general de energía exterior?",
+              "critica": true,
+              "pistasMock": [
+                "corte de luz",
+                "corto la luz",
+                "corte general",
+                "trifasica",
+                "apagon"
+              ]
+            },
+            {
+              "id": 7,
+              "subcategoriaId": 2,
+              "texto": "¿Se realizó la evacuación completa hacia un espacio abierto?",
+              "critica": true,
+              "pistasMock": [
+                "evacuacion",
+                "evacuado",
+                "patio abierto",
+                "salieron",
+                "chicos"
+              ]
+            },
+            {
+              "id": 8,
+              "subcategoriaId": 2,
+              "texto": "¿Hay llamas abiertas o humo tóxico invadiendo la vía de escape?",
+              "critica": true,
+              "pistasMock": [
+                "llamarada",
+                "humo blanco",
+                "humo negro",
+                "humo gris",
+                "chispas",
+                "aceite quemado"
+              ]
+            },
+            {
+              "id": 9,
+              "subcategoriaId": 2,
+              "texto": "¿Hay personas con quemaduras o inhalación de vapores?",
+              "critica": false,
+              "pistasMock": [
+                "quemadura",
+                "no se puede respirar",
+                "heridos",
+                "intoxic"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 4,
+              "subcategoriaId": 2,
+              "texto": "PROHIBIDO arrojar agua bajo ninguna circunstancia sobre tableros, aceite dieléctrico o baterías de litio.",
+              "critica": true
+            },
+            {
+              "id": 5,
+              "subcategoriaId": 2,
+              "texto": "Evacuar inmediatamente el sector a al menos 50 metros y mantener puertas/persianas cerradas si es seguro.",
+              "critica": true
+            },
+            {
+              "id": 6,
+              "subcategoriaId": 2,
+              "texto": "Utilizar únicamente matafuego clase C (CO2 o polvo químico) si no hay riesgo de explosión ni humo denso.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "categoriaId": 1,
+          "nombre": "incendio_via_publica_pastizal",
+          "etiqueta": "Incendio en vía pública o pastizales",
+          "criterio": "Fuego en contenedores de residuos, vehículos estacionados, pastizales o parques públicos.",
+          "preguntas": [
+            {
+              "id": 10,
+              "subcategoriaId": 3,
+              "texto": "¿Hay vehículos linderos, árboles o viviendas en riesgo de propagación?",
+              "critica": true,
+              "pistasMock": [
+                "auto estacionado",
+                "vehiculo",
+                "optica",
+                "arboles",
+                "juegos infantiles",
+                "viviendas"
+              ]
+            },
+            {
+              "id": 11,
+              "subcategoriaId": 3,
+              "texto": "¿Hacia qué sector avanza el fuego o sopla el viento?",
+              "critica": false,
+              "pistasMock": [
+                "avanza hacia",
+                "viento",
+                "sector",
+                "hacia"
+              ]
+            },
+            {
+              "id": 12,
+              "subcategoriaId": 3,
+              "texto": "¿El humo invade calzadas o afecta la visibilidad del tránsito?",
+              "critica": false,
+              "pistasMock": [
+                "humo",
+                "avenida",
+                "transito",
+                "cables aereos"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 7,
+              "subcategoriaId": 3,
+              "texto": "Alejarse del fuego y de vehículos cercanos por riesgo de explosión del tanque de combustible.",
+              "critica": true
+            },
+            {
+              "id": 8,
+              "subcategoriaId": 3,
+              "texto": "Evacuar sectores recreativos y ubicarse a favor del viento para evitar inhalar humo tóxico.",
+              "critica": true
+            },
+            {
+              "id": 9,
+              "subcategoriaId": 3,
+              "texto": "No intentar apagar contenedores con agua si se desconoce su contenido.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "categoriaId": 1,
+          "nombre": "rescate_ascensor",
+          "etiqueta": "Rescate en ascensor o espacio confinado",
+          "criterio": "Personas atrapadas en ascensor detenido o espacio confinado sin incendio activo.",
+          "preguntas": [
+            {
+              "id": 13,
+              "subcategoriaId": 4,
+              "texto": "¿Cuántas personas están atrapadas y hay menores, embarazadas o ancianos?",
+              "critica": true,
+              "pistasMock": [
+                "personas adentro",
+                "embarazada",
+                "nene",
+                "menor",
+                "cuatro"
+              ]
+            },
+            {
+              "id": 14,
+              "subcategoriaId": 4,
+              "texto": "¿Alguna persona presenta síntomas de asfixia, pánico o descompensación?",
+              "critica": true,
+              "pistasMock": [
+                "panico",
+                "asfixia",
+                "descomp",
+                "sin luz",
+                "corto la luz"
+              ]
+            },
+            {
+              "id": 15,
+              "subcategoriaId": 4,
+              "texto": "¿Entre qué pisos quedó detenida la cabina y si está desnivelada?",
+              "critica": false,
+              "pistasMock": [
+                "entre los pisos",
+                "pisos",
+                "desnivel",
+                "trabo el ascensor"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 10,
+              "subcategoriaId": 4,
+              "texto": "No intentar forzar las puertas exteriores ni activar maniobras manuales sin personal técnico o bomberos.",
+              "critica": true
+            },
+            {
+              "id": 11,
+              "subcategoriaId": 4,
+              "texto": "Hablar con los ocupantes desde el piso más cercano para transmitir calma e indicarles que permanezcan sentados.",
+              "critica": true
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "categoriaId": 1,
+          "nombre": "derrame_materiales_peligrosos",
+          "etiqueta": "Derrame de combustible o sustancias peligrosas",
+          "criterio": "Fuga o derrame de hidrocarburos, químicos o cargas peligrosas en calzada o predios.",
+          "preguntas": [
+            {
+              "id": 16,
+              "subcategoriaId": 5,
+              "texto": "¿Qué sustancia se derrama y existe presencia de fuego o chispas?",
+              "critica": true,
+              "pistasMock": [
+                "gasoil",
+                "nafta",
+                "combustible",
+                "no hay fuego",
+                "olor"
+              ]
+            },
+            {
+              "id": 17,
+              "subcategoriaId": 5,
+              "texto": "¿El líquido está ingresando a desagües pluviales o cursos de agua?",
+              "critica": true,
+              "pistasMock": [
+                "cordon cuneta",
+                "desague",
+                "pluvial",
+                "chorros"
+              ]
+            },
+            {
+              "id": 18,
+              "subcategoriaId": 5,
+              "texto": "¿El conductor o personal logró salir del área de riesgo?",
+              "critica": false,
+              "pistasMock": [
+                "conductor",
+                "chofer",
+                "cabina",
+                "autos pasando"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 12,
+              "subcategoriaId": 5,
+              "texto": "Alejar a todas las personas y cortar la circulación a al menos 100 metros del derrame.",
+              "critica": true
+            },
+            {
+              "id": 13,
+              "subcategoriaId": 5,
+              "texto": "Prohibido encender cigarrillos, motores o fuentes de calor a menos de 50 metros.",
+              "critica": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "ACCIDENTE_VIAL",
+      "etiqueta": "Accidente Vial",
+      "subcategorias": [
+        {
+          "id": 6,
+          "categoriaId": 2,
+          "nombre": "vial_moto_ciclista",
+          "etiqueta": "Siniestro con moto, bicicleta o monopatín",
+          "criterio": "Colisión que involucra motocicleta, bicicleta, monopatín o peatón en calzada o ciclovía.",
+          "preguntas": [
+            {
+              "id": 19,
+              "subcategoriaId": 6,
+              "texto": "¿La víctima está consciente, respira y responde al diálogo?",
+              "critica": true,
+              "pistasMock": [
+                "consciente",
+                "no se mueve",
+                "respira",
+                "responde",
+                "dolor"
+              ]
+            },
+            {
+              "id": 20,
+              "subcategoriaId": 6,
+              "texto": "¿Lleva el casco colocado o quedó atrapada debajo de un vehículo?",
+              "critica": true,
+              "pistasMock": [
+                "casco",
+                "debajo del estribo",
+                "atrapad",
+                "volo"
+              ]
+            },
+            {
+              "id": 21,
+              "subcategoriaId": 6,
+              "texto": "¿Hay sangrado activo profuso o pérdida de combustible en el asfalto?",
+              "critica": false,
+              "pistasMock": [
+                "sangrado",
+                "fracturada",
+                "pierna",
+                "combustible"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 14,
+              "subcategoriaId": 6,
+              "texto": "BAJO NINGUNA CIRCUNSTANCIA retire el casco ni mueva a la víctima del asfalto.",
+              "critica": true
+            },
+            {
+              "id": 15,
+              "subcategoriaId": 6,
+              "texto": "Si hay un vehículo involucrado, ordenar apagar el motor y colocar freno de mano de inmediato.",
+              "critica": true
+            },
+            {
+              "id": 16,
+              "subcategoriaId": 6,
+              "texto": "Señalizar o balizar el carril para evitar un segundo atropello.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "categoriaId": 2,
+          "nombre": "vial_colision_multiple_vuelco",
+          "etiqueta": "Choque múltiple o vuelco vehicular",
+          "criterio": "Colisión en cadena, choque en autopista o vuelco con posibles personas atrapadas.",
+          "preguntas": [
+            {
+              "id": 22,
+              "subcategoriaId": 7,
+              "texto": "¿Hay personas atrapadas en los habitáculos o inconscientes?",
+              "critica": true,
+              "pistasMock": [
+                "atrapado",
+                "cinturon",
+                "no puede abrir",
+                "mareada",
+                "inconsciente"
+              ]
+            },
+            {
+              "id": 23,
+              "subcategoriaId": 7,
+              "texto": "¿Se observa humo, fuego o pérdida de combustible en los vehículos?",
+              "critica": true,
+              "pistasMock": [
+                "humo saliendo",
+                "motor",
+                "nafta",
+                "combustible"
+              ]
+            },
+            {
+              "id": 24,
+              "subcategoriaId": 7,
+              "texto": "¿Cuántos vehículos están involucrados y cuántos carriles quedaron bloqueados?",
+              "critica": false,
+              "pistasMock": [
+                "tres autos",
+                "utilitaria",
+                "carril rapido",
+                "zanja",
+                "volcado"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 17,
+              "subcategoriaId": 7,
+              "texto": "No tirar violentamente de ocupantes atrapados para evitar lesiones cervicales.",
+              "critica": true
+            },
+            {
+              "id": 18,
+              "subcategoriaId": 7,
+              "texto": "Los ocupantes que puedan caminar deben cruzar hacia la banquina protegida fuera de la calzada.",
+              "critica": true
+            },
+            {
+              "id": 19,
+              "subcategoriaId": 7,
+              "texto": "Apagar el contacto del vehículo volcado solo si puede hacerse de forma segura.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "categoriaId": 2,
+          "nombre": "vial_obstruccion_vehiculo_pesado",
+          "etiqueta": "Obstrucción vial por vehículo pesado",
+          "criterio": "Camión atascado en bajo viaducto, carga caída u obstrucción grave sin heridos graves.",
+          "preguntas": [
+            {
+              "id": 25,
+              "subcategoriaId": 8,
+              "texto": "¿Hay heridos en la cabina o peatones alcanzados?",
+              "critica": true,
+              "pistasMock": [
+                "heridos",
+                "chofer",
+                "cabina",
+                "peatones"
+              ]
+            },
+            {
+              "id": 26,
+              "subcategoriaId": 8,
+              "texto": "¿Se observa daño estructural en puente o vías ferroviarias?",
+              "critica": true,
+              "pistasMock": [
+                "bajo puente",
+                "vias",
+                "cartel",
+                "encajado",
+                "tren"
+              ]
+            },
+            {
+              "id": 27,
+              "subcategoriaId": 8,
+              "texto": "¿El tránsito quedó totalmente bloqueado y hay derrame de carga?",
+              "critica": false,
+              "pistasMock": [
+                "trabando",
+                "circulacion",
+                "carga",
+                "acoplado"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 20,
+              "subcategoriaId": 8,
+              "texto": "No intentar remolcar el vehículo pesado sin presencia técnica o de tránsito.",
+              "critica": true
+            },
+            {
+              "id": 21,
+              "subcategoriaId": 8,
+              "texto": "Mantener al chofer fuera de la cabina en zona segura mientras se evalúa la estructura.",
+              "critica": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "EMERGENCIA_MEDICA",
+      "etiqueta": "Emergencia Médica",
+      "subcategorias": [
+        {
+          "id": 9,
+          "categoriaId": 3,
+          "nombre": "medica_respiratoria_anafilaxia",
+          "etiqueta": "Dificultad respiratoria aguda o anafilaxia",
+          "criterio": "Crisis asmática grave, broncoespasmo refractario, edema de glotis o reacción alérgica severa.",
+          "preguntas": [
+            {
+              "id": 28,
+              "subcategoriaId": 9,
+              "texto": "¿El paciente puede hablar o emitir sonidos y presenta labios morados o hinchazón facial?",
+              "critica": true,
+              "pistasMock": [
+                "no le entra el aire",
+                "labios morados",
+                "tiraje",
+                "cerrando la garganta",
+                "hinchada",
+                "no puede tragar"
+              ]
+            },
+            {
+              "id": 29,
+              "subcategoriaId": 9,
+              "texto": "¿Cuenta con autoinyector de adrenalina (EpiPen) o medicación broncodilatadora aplicada?",
+              "critica": true,
+              "pistasMock": [
+                "salbutamol",
+                "disparos",
+                "epipen",
+                "adrenalina",
+                "alergico"
+              ]
+            },
+            {
+              "id": 30,
+              "subcategoriaId": 9,
+              "texto": "¿Presenta mareos, desmayo o antecedentes de internación previa?",
+              "critica": false,
+              "pistasMock": [
+                "mareo",
+                "desmayo",
+                "broncoespasmo",
+                "nueces"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 22,
+              "subcategoriaId": 9,
+              "texto": "Sentar al paciente erguido e inclinado hacia adelante para facilitar la entrada de aire. NUNCA acostarlo.",
+              "critica": true
+            },
+            {
+              "id": 23,
+              "subcategoriaId": 9,
+              "texto": "Si cuenta con autoinyector de epinefrina para anafilaxia, aplicarlo de inmediato en la cara externa del muslo.",
+              "critica": true
+            },
+            {
+              "id": 24,
+              "subcategoriaId": 9,
+              "texto": "Mantener ambiente ventilado con aire fresco y aflojar ropa del cuello.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "categoriaId": 3,
+          "nombre": "medica_sincope_descompensacion",
+          "etiqueta": "Síncope, lipotimia o golpe de calor",
+          "criterio": "Desmayo, hipotensión, sudoración fría o descompensación por calor con recuperación parcial.",
+          "preguntas": [
+            {
+              "id": 31,
+              "subcategoriaId": 10,
+              "texto": "¿La persona recuperó la conciencia y habla de manera coherente?",
+              "critica": true,
+              "pistasMock": [
+                "desmayo",
+                "recupero la conciencia",
+                "habla",
+                "blanca",
+                "transpira frio"
+              ]
+            },
+            {
+              "id": 32,
+              "subcategoriaId": 10,
+              "texto": "¿Sufrió golpe en la cabeza al caer o refiere dolor en el pecho?",
+              "critica": true,
+              "pistasMock": [
+                "golpe",
+                "pecho",
+                "no siente las piernas",
+                "anden",
+                "calor"
+              ]
+            },
+            {
+              "id": 33,
+              "subcategoriaId": 10,
+              "texto": "¿Tiene antecedentes cardíacos, diabetes o puede mover ambos brazos?",
+              "critica": false,
+              "pistasMock": [
+                "antecedentes",
+                "diabetes",
+                "brazos"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 25,
+              "subcategoriaId": 10,
+              "texto": "Recostar a la persona boca arriba y elevarle las piernas 30 cm sobre el nivel del suelo.",
+              "critica": true
+            },
+            {
+              "id": 26,
+              "subcategoriaId": 10,
+              "texto": "Aflojar ropa ajustada en cuello y cintura y no suministrar líquidos mientras no esté totalmente lúcida.",
+              "critica": true
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "categoriaId": 3,
+          "nombre": "medica_trauma_fractura_caida",
+          "etiqueta": "Traumatismo, caída o fractura",
+          "criterio": "Caída en adulto mayor, fractura expuesta o traumatismo severo de extremidades.",
+          "preguntas": [
+            {
+              "id": 34,
+              "subcategoriaId": 11,
+              "texto": "¿El paciente está consciente y perdió el conocimiento en algún momento?",
+              "critica": true,
+              "pistasMock": [
+                "llora de dolor",
+                "gritando",
+                "consciente",
+                "tropezo",
+                "choco"
+              ]
+            },
+            {
+              "id": 35,
+              "subcategoriaId": 11,
+              "texto": "¿Hay hueso expuesto, deformidad evidente o sangrado pulsátil?",
+              "critica": true,
+              "pistasMock": [
+                "fractura expuesta",
+                "hueso asomando",
+                "sangrando",
+                "cadera"
+              ]
+            },
+            {
+              "id": 36,
+              "subcategoriaId": 11,
+              "texto": "¿La extremidad afectada conserva sensibilidad o toma anticoagulantes?",
+              "critica": false,
+              "pistasMock": [
+                "no se puede incorporar",
+                "anticoagulante",
+                "tibia",
+                "perone"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 27,
+              "subcategoriaId": 11,
+              "texto": "No intentar parar, sentar ni alinear o enderezar la extremidad lesionada.",
+              "critica": true
+            },
+            {
+              "id": 28,
+              "subcategoriaId": 11,
+              "texto": "Si hay fractura expuesta, cubrir con paño limpio sin presionar directamente sobre el hueso.",
+              "critica": true
+            },
+            {
+              "id": 29,
+              "subcategoriaId": 11,
+              "texto": "Abrigar al paciente para prevenir hipotermia por contacto con el suelo.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "categoriaId": 3,
+          "nombre": "medica_convulsion",
+          "etiqueta": "Crisis convulsiva activa",
+          "criterio": "Convulsión tónico-clónica, pérdida de conciencia con sacudidas o estatus epiléptico.",
+          "preguntas": [
+            {
+              "id": 37,
+              "subcategoriaId": 12,
+              "texto": "¿La crisis sigue activa y cuánto tiempo lleva desde que comenzó?",
+              "critica": true,
+              "pistasMock": [
+                "convulsionando",
+                "sacudidas",
+                "espuma",
+                "temblar",
+                "no responde"
+              ]
+            },
+            {
+              "id": 38,
+              "subcategoriaId": 12,
+              "texto": "¿Tiene la cabeza protegida contra golpes y se evitó introducir objetos en la boca?",
+              "critica": true,
+              "pistasMock": [
+                "cayo de la silla",
+                "piso",
+                "boca",
+                "cabeza"
+              ]
+            },
+            {
+              "id": 39,
+              "subcategoriaId": 12,
+              "texto": "¿Sufrió traumatismo craneal al caer?",
+              "critica": false,
+              "pistasMock": [
+                "golpe",
+                "silla",
+                "mesa"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 30,
+              "subcategoriaId": 12,
+              "texto": "NUNCA introduzca dedos ni ningún objeto dentro de la boca durante una convulsión.",
+              "critica": true
+            },
+            {
+              "id": 31,
+              "subcategoriaId": 12,
+              "texto": "Despejar objetos alrededor y colocar algo blando debajo de la cabeza para evitar golpes.",
+              "critica": true
+            },
+            {
+              "id": 32,
+              "subcategoriaId": 12,
+              "texto": "Al ceder las sacudidas, colocar a la persona de costado en posición lateral de seguridad.",
+              "critica": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "DEFENSA_CIVIL",
+      "etiqueta": "Defensa Civil",
+      "subcategorias": [
+        {
+          "id": 13,
+          "categoriaId": 4,
+          "nombre": "dc_fuga_gas",
+          "etiqueta": "Fuga de gas en vía pública o edificio",
+          "criterio": "Rotura de cañería de gas, soplido de alta presión u olor intenso ingresando a viviendas.",
+          "preguntas": [
+            {
+              "id": 40,
+              "subcategoriaId": 13,
+              "texto": "¿La fuga continúa sonando a alta presión y afecta viviendas linderas?",
+              "critica": true,
+              "pistasMock": [
+                "soplido",
+                "olor a gas",
+                "zanja",
+                "picando",
+                "casas"
+              ]
+            },
+            {
+              "id": 41,
+              "subcategoriaId": 13,
+              "texto": "¿Los vecinos iniciaron evacuación y se apagaron fuentes de ignición?",
+              "critica": true,
+              "pistasMock": [
+                "evacuacion",
+                "cuadrilla",
+                "bares",
+                "cocinas"
+              ]
+            },
+            {
+              "id": 42,
+              "subcategoriaId": 13,
+              "texto": "¿Se trata de rotura por obra en vereda o instalación interna?",
+              "critica": false,
+              "pistasMock": [
+                "fibra optica",
+                "vereda",
+                "cano de gas"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 33,
+              "subcategoriaId": 13,
+              "texto": "Evacuar inmediatamente a 100 metros en dirección contraria al viento.",
+              "critica": true
+            },
+            {
+              "id": 34,
+              "subcategoriaId": 13,
+              "texto": "PROHIBIDO fumar, arrancar motores, encender llaves de luz o tocar timbres en el área.",
+              "critica": true
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "categoriaId": 4,
+          "nombre": "dc_colapso_estructura_arbolado",
+          "etiqueta": "Colapso estructural o caída de árbol",
+          "criterio": "Árbol caído de gran porte, desprendimiento de marquesina o derrumbe de medianera.",
+          "preguntas": [
+            {
+              "id": 43,
+              "subcategoriaId": 14,
+              "texto": "¿Hay personas atrapadas, lesionadas o dentro de vehículos aplastados?",
+              "critica": true,
+              "pistasMock": [
+                "aplasto",
+                "no habia nadie",
+                "camionetas",
+                "vereda"
+              ]
+            },
+            {
+              "id": 44,
+              "subcategoriaId": 14,
+              "texto": "¿Involucra cables de energía eléctrica caídos o cañerías de gas?",
+              "critica": true,
+              "pistasMock": [
+                "cables",
+                "media tension",
+                "enganchada",
+                "canerias"
+              ]
+            },
+            {
+              "id": 45,
+              "subcategoriaId": 14,
+              "texto": "¿Persiste riesgo de desmoronamiento o caída sobre la acera/calzada?",
+              "critica": false,
+              "pistasMock": [
+                "marquesina",
+                "balanceandose",
+                "perno",
+                "medianera",
+                "ladrillos colgando",
+                "calzada"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 35,
+              "subcategoriaId": 14,
+              "texto": "Interrumpir el paso peatonal y mantener un perímetro mínimo de 20 metros.",
+              "critica": true
+            },
+            {
+              "id": 36,
+              "subcategoriaId": 14,
+              "texto": "Considerar todo cable caído como energizado con riesgo mortal aunque no haga chispas.",
+              "critica": true
+            },
+            {
+              "id": 37,
+              "subcategoriaId": 14,
+              "texto": "Prohibir el acceso a patios o balcones linderos si hubo derrumbe de mampostería.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "categoriaId": 4,
+          "nombre": "dc_anegamiento_inundacion",
+          "etiqueta": "Anegamiento o inundación por temporal",
+          "criterio": "Bajo viaducto o arteria anegada con vehículos varados y riesgo de arrastre.",
+          "preguntas": [
+            {
+              "id": 46,
+              "subcategoriaId": 15,
+              "texto": "¿Cuántas personas hay varadas y alguna es anciana, menor o presenta hipotermia?",
+              "critica": true,
+              "pistasMock": [
+                "techos",
+                "conductores",
+                "tres autos",
+                "esperando rescate"
+              ]
+            },
+            {
+              "id": 47,
+              "subcategoriaId": 15,
+              "texto": "¿El nivel del agua sigue ascendiendo o hay corriente rápida?",
+              "critica": true,
+              "pistasMock": [
+                "inundo",
+                "mitad de las puertas",
+                "bajo nivel",
+                "agua"
+              ]
+            },
+            {
+              "id": 48,
+              "subcategoriaId": 15,
+              "texto": "¿El paso vehicular se encuentra interrumpido?",
+              "critica": false,
+              "pistasMock": [
+                "viaducto",
+                "intentaron cruzar",
+                "pararon los motores"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 38,
+              "subcategoriaId": 15,
+              "texto": "Permanecer sobre los techos de los vehículos y no lanzarse a nadar por riesgo de sumideros abiertos.",
+              "critica": true
+            },
+            {
+              "id": 39,
+              "subcategoriaId": 15,
+              "texto": "No intentar cruzar sectores anegados a pie ni con otros rodados.",
+              "critica": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "SERVICIOS_PUBLICOS",
+      "etiqueta": "Servicios Públicos",
+      "subcategorias": [
+        {
+          "id": 16,
+          "categoriaId": 5,
+          "nombre": "sp_riesgo_electrico_via_publica",
+          "etiqueta": "Cables cortados o riesgo eléctrico en vía pública",
+          "criterio": "Postes arrancados, cables caídos chispeando o tensión en pavimento húmedo.",
+          "preguntas": [
+            {
+              "id": 49,
+              "subcategoriaId": 16,
+              "texto": "¿Hay chispas, llamas o humo activo en el cable o el suelo?",
+              "critica": true,
+              "pistasMock": [
+                "chispeando",
+                "humo saliendo",
+                "cable grueso",
+                "postes"
+              ]
+            },
+            {
+              "id": 50,
+              "subcategoriaId": 16,
+              "texto": "¿Existe agua o charcos sobre la vereda o calzada en contacto con el tendido?",
+              "critica": true,
+              "pistasMock": [
+                "asfalto mojado",
+                "mojado",
+                "agua",
+                "vereda"
+              ]
+            },
+            {
+              "id": 51,
+              "subcategoriaId": 16,
+              "texto": "¿El vehículo causante permanece en el lugar o hay peatones próximos?",
+              "critica": false,
+              "pistasMock": [
+                "camion de mudanzas",
+                "engancho",
+                "comercios"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 40,
+              "subcategoriaId": 16,
+              "texto": "Mantenerse a más de 15 metros de distancia y prohibir pisar charcos en toda la cuadra.",
+              "critica": true
+            },
+            {
+              "id": 41,
+              "subcategoriaId": 16,
+              "texto": "No tocar postes metálicos ni intentar apartar cables con ningún elemento.",
+              "critica": true
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "categoriaId": 5,
+          "nombre": "sp_rotura_agua_socavon",
+          "etiqueta": "Rotura de caño maestro o socavón en calzada",
+          "criterio": "Hundimiento de pavimento, fuga de agua potable a presión o ingreso a subsuelos.",
+          "preguntas": [
+            {
+              "id": 52,
+              "subcategoriaId": 17,
+              "texto": "¿El agua ingresa a subsuelos con tableros o transformadores eléctricos?",
+              "critica": true,
+              "pistasMock": [
+                "subsuelos",
+                "garaje",
+                "entrando agua",
+                "chorro de agua"
+              ]
+            },
+            {
+              "id": 53,
+              "subcategoriaId": 17,
+              "texto": "¿El socavón sigue ensanchándose o hay vehículos caídos adentro?",
+              "critica": true,
+              "pistasMock": [
+                "pozo",
+                "metros de diametro",
+                "colectivo",
+                "fosa"
+              ]
+            },
+            {
+              "id": 54,
+              "subcategoriaId": 17,
+              "texto": "¿Está afectado el carril exclusivo o la circulación de transporte público?",
+              "critica": false,
+              "pistasMock": [
+                "metrobus",
+                "avenida inundada",
+                "vereda"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 42,
+              "subcategoriaId": 17,
+              "texto": "Cortar la electricidad general de los subsuelos antes de que el agua alcance tableros y no descender a pie.",
+              "critica": true
+            },
+            {
+              "id": 43,
+              "subcategoriaId": 17,
+              "texto": "No aproximarse al borde del socavón por riesgo de desmoronamiento de la losa asfáltica.",
+              "critica": true
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "categoriaId": 5,
+          "nombre": "sp_semaforizacion_infraestructura",
+          "etiqueta": "Semaforización o infraestructura urbana",
+          "criterio": "Semáforos apagados en cruce de avenidas, alumbrado o reclamos de infraestructura urbana (P3/P4).",
+          "preguntas": [
+            {
+              "id": 55,
+              "subcategoriaId": 18,
+              "texto": "¿Hubo colisiones o heridos en el cruce hasta el momento?",
+              "critica": true,
+              "pistasMock": [
+                "atropellan",
+                "colision",
+                "heridos",
+                "casi"
+              ]
+            },
+            {
+              "id": 56,
+              "subcategoriaId": 18,
+              "texto": "¿Los semáforos están totalmente apagados o titilando en amarillo?",
+              "critica": false,
+              "pistasMock": [
+                "apago",
+                "bateria de semaforos",
+                "hace 40 minutos"
+              ]
+            },
+            {
+              "id": 57,
+              "subcategoriaId": 18,
+              "texto": "¿Hay presencia de agentes de tránsito o cercanía a escuelas?",
+              "critica": false,
+              "pistasMock": [
+                "maestras",
+                "escuela",
+                "colectivos",
+                "camiones"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 44,
+              "subcategoriaId": 18,
+              "texto": "Aconsejar a los peatones cruzar por esquinas previas donde la señalización funcione.",
+              "critica": false
+            },
+            {
+              "id": 45,
+              "subcategoriaId": 18,
+              "texto": "Evitar ordenar el tránsito manualmente sin chaleco ni habilitación vial.",
+              "critica": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "CONVIVENCIA_SEGURIDAD",
+      "etiqueta": "Convivencia y Seguridad",
+      "subcategorias": [
+        {
+          "id": 19,
+          "categoriaId": 6,
+          "nombre": "seg_disturbio_violencia",
+          "etiqueta": "Disturbio, riña o amenaza en vía pública",
+          "criterio": "Pelea colectiva, agresión física, amenaza o daño a propiedad comercial.",
+          "preguntas": [
+            {
+              "id": 58,
+              "subcategoriaId": 19,
+              "texto": "¿Se observan armas blancas o armas de fuego?",
+              "critica": true,
+              "pistasMock": [
+                "armas",
+                "cuchillo",
+                "pistola",
+                "botellas",
+                "sillas"
+              ]
+            },
+            {
+              "id": 59,
+              "subcategoriaId": 19,
+              "texto": "¿Hay personas inconscientes o con heridas de gravedad en el lugar?",
+              "critica": true,
+              "pistasMock": [
+                "raspon",
+                "herido",
+                "inconsciente",
+                "brazo"
+              ]
+            },
+            {
+              "id": 60,
+              "subcategoriaId": 19,
+              "texto": "¿Los involucrados continúan en el lugar o hacia dónde se dispersan?",
+              "critica": false,
+              "pistasMock": [
+                "pelea",
+                "jovenes",
+                "vidriera",
+                "plaza"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 46,
+              "subcategoriaId": 19,
+              "texto": "Resguardarse dentro de un local o sitio seguro y no intervenir físicamente en la disputa.",
+              "critica": true
+            },
+            {
+              "id": 47,
+              "subcategoriaId": 19,
+              "texto": "Mantener distancia visual segura sin confrontar a los agresores.",
+              "critica": false
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "categoriaId": 6,
+          "nombre": "seg_animal_peligroso",
+          "etiqueta": "Animal agresivo o suelto en espacio público",
+          "criterio": "Canino agresivo suelto sin dueño, ataque a personas u otros animales en plazas.",
+          "preguntas": [
+            {
+              "id": 61,
+              "subcategoriaId": 20,
+              "texto": "¿Hay personas mordidas o heridas en este momento?",
+              "critica": true,
+              "pistasMock": [
+                "ataco",
+                "mordio",
+                "heridas",
+                "perrito"
+              ]
+            },
+            {
+              "id": 62,
+              "subcategoriaId": 20,
+              "texto": "¿El animal está contenido dentro de un canil o suelto en el espacio abierto?",
+              "critica": true,
+              "pistasMock": [
+                "canil",
+                "suelto",
+                "sin bozal",
+                "sin correa",
+                "plaza"
+              ]
+            },
+            {
+              "id": 63,
+              "subcategoriaId": 20,
+              "texto": "¿Tiene collar identificatorio o permanece algún responsable cerca?",
+              "critica": false,
+              "pistasMock": [
+                "duenos se fueron",
+                "dogo",
+                "pitbull",
+                "grunendo"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 48,
+              "subcategoriaId": 20,
+              "texto": "No mirar fijamente al animal ni realizar movimientos bruscos; alejar a niños y mascotas.",
+              "critica": true
+            },
+            {
+              "id": 49,
+              "subcategoriaId": 20,
+              "texto": "Trabar la puerta exterior del canil desde afuera únicamente si puede hacerse sin riesgo.",
+              "critica": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "OTRO",
+      "etiqueta": "Otro / Consulta General",
+      "subcategorias": [
+        {
+          "id": 21,
+          "categoriaId": 7,
+          "nombre": "general_otro",
+          "etiqueta": "Incidente general o consulta administrativa",
+          "criterio": "Respaldo para incidentes fuera de las tipologías anteriores o consultas administrativas de prioridad baja (P4).",
+          "preguntas": [
+            {
+              "id": 64,
+              "subcategoriaId": 21,
+              "texto": "¿Cuál es el motivo principal del llamado y requiere asistencia presencial?",
+              "critica": true,
+              "pistasMock": [
+                "consulta",
+                "reclamo",
+                "informacion",
+                "reporto"
+              ]
+            },
+            {
+              "id": 65,
+              "subcategoriaId": 21,
+              "texto": "¿Existe algún riesgo inmediato para personas o bienes en el lugar?",
+              "critica": false,
+              "pistasMock": [
+                "riesgo",
+                "peligro",
+                "heridos",
+                "urgente"
+              ]
+            }
+          ],
+          "instruccionesPreArribo": [
+            {
+              "id": 50,
+              "subcategoriaId": 21,
+              "texto": "Mantener la calma y permanecer en zona segura ante cualquier cambio de situación.",
+              "critica": false
+            },
+            {
+              "id": 51,
+              "subcategoriaId": 21,
+              "texto": "Volver a comunicarse de inmediato si surge riesgo físico o agravamiento.",
+              "critica": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
