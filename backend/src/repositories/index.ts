@@ -3,6 +3,10 @@ export {
   type ListarCartasDespachoFiltros,
 } from './cartaDespachoRepository.js';
 export {
+  CasoReferenciaCsv,
+  type CasoReferenciaCsvSnapshot,
+} from './casoReferenciaCsv.js';
+export {
   CATALOGO_CATEGORIAS_SEED,
   PREGUNTAS_UNIVERSALES_SEED,
   seedCatalogoProtocolos,

@@ -1,6 +1,6 @@
 import type { HablanteTurno, TurnoDialogo } from '../types/domain';
 
-const SPEAKER_REGEX = /\b(Operador|Llamante|Sistema)\s*:\s*/gi;
+const SPEAKER_REGEX = /\b(Operador|Llamante)\s*:\s*/gi;
 
 export function parseTurnosFromTranscripcion(transcripcionCruda: string): TurnoDialogo[] {
   const trimmed = transcripcionCruda.trim();
@@ -26,7 +26,7 @@ export function parseTurnosFromTranscripcion(transcripcionCruda: string): TurnoD
     if (preText) {
       turnos.push({
         indice: turnos.length + 1,
-        hablante: 'SISTEMA',
+        hablante: 'LLAMANTE',
         texto: preText,
       });
     }
@@ -45,11 +45,7 @@ export function parseTurnosFromTranscripcion(transcripcionCruda: string): TurnoD
     }
 
     const hablante: HablanteTurno =
-      rawSpeaker === 'OPERADOR'
-        ? 'OPERADOR'
-        : rawSpeaker === 'SISTEMA'
-          ? 'SISTEMA'
-          : 'LLAMANTE';
+      rawSpeaker === 'OPERADOR' ? 'OPERADOR' : 'LLAMANTE';
 
     turnos.push({
       indice: turnos.length + 1,
@@ -63,7 +59,7 @@ export function parseTurnosFromTranscripcion(transcripcionCruda: string): TurnoD
 
 export function appendTurnoToTranscripcion(
   transcripcionActual: string,
-  hablante: Exclude<HablanteTurno, 'SISTEMA'>,
+  hablante: HablanteTurno,
   texto: string,
 ): string {
   const clean = texto.trim();

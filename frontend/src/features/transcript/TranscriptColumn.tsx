@@ -26,7 +26,7 @@ interface TranscriptColumnProps {
   onCreateFreeCall: (origen: OrigenReporte, transcripcion: string) => Promise<void>;
   onSelectCase: (caso: CasoReferenciaCsv) => void;
   onAppendTurno: (
-    hablante: Exclude<HablanteTurno, 'SISTEMA'>,
+    hablante: HablanteTurno,
     texto: string,
     reanalizar: boolean,
   ) => Promise<void>;
@@ -56,7 +56,7 @@ export function TranscriptColumn({
   onReanalyze,
 }: TranscriptColumnProps) {
   const [viewMode, setViewMode] = useState<TranscriptViewMode>('turnos');
-  const [speaker, setSpeaker] = useState<Exclude<HablanteTurno, 'SISTEMA'>>('LLAMANTE');
+  const [speaker, setSpeaker] = useState<HablanteTurno>('LLAMANTE');
   const [turnDraft, setTurnDraft] = useState('');
   const [rawDraft, setRawDraft] = useState('');
   const [newCallOrigin, setNewCallOrigin] = useState<OrigenReporte>('TELEFONIA_911');
@@ -353,7 +353,7 @@ export function TranscriptColumn({
                       ) : (
                         <User className="h-3 w-3" />
                       )}
-                      {isOperator ? 'Operador' : turno.hablante === 'SISTEMA' ? 'Sistema' : 'Llamante'}
+                      {isOperator ? 'Operador' : 'Llamante'}
                     </span>
                     <span
                       className="font-mono-tabular text-[10px]"

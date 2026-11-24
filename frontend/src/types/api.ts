@@ -33,7 +33,7 @@ export interface CreateLlamadaPayload {
 }
 
 export interface AppendTurnoPayload {
-  hablante: Exclude<HablanteTurno, 'SISTEMA'>;
+  hablante: HablanteTurno;
   texto: string;
   reanalizar?: boolean;
 }

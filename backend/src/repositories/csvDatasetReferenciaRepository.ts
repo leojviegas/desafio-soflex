@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import {
-  CasoReferenciaCsv,
   esOrigenReporte,
   esPrioridadIncidente,
   type OrigenReporte,
   type PrioridadIncidente,
 } from '../domain/index.js';
+import { CasoReferenciaCsv } from './casoReferenciaCsv.js';
 import { parseCsv } from './csvParser.js';
 import type { DatasetReferenciaRepository } from './datasetReferenciaRepository.js';
 

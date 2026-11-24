@@ -117,7 +117,7 @@ export function App() {
 
   const handleAppendTurno = useCallback(
     async (
-      hablante: Exclude<HablanteTurno, 'SISTEMA'>,
+      hablante: HablanteTurno,
       texto: string,
       reanalizar: boolean,
     ) => {

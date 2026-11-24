@@ -23,7 +23,7 @@ interface OperatorConsolePageProps {
   onCreateFreeCall: (origen: OrigenReporte, transcripcion: string) => Promise<void>;
   onSelectCase: (caso: CasoReferenciaCsv) => void;
   onAppendTurno: (
-    hablante: Exclude<HablanteTurno, 'SISTEMA'>,
+    hablante: HablanteTurno,
     texto: string,
     reanalizar: boolean,
   ) => Promise<void>;

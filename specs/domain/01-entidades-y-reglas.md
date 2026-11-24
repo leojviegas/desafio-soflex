@@ -9,7 +9,7 @@ El diseño separa explícitamente tres planos:
 2. **Sesión de Trabajo del Operador (`llamadas`)**: expediente mutable mientras está `EN_CURSO` que conserva la `transcripcion_cruda`, el borrador editable, el checklist vivo, las instrucciones de pre-arribo transmitidas y la auditoría de overrides manuales.
 3. **Entregable Formal a CAD (`cartas_despacho`)**: registro inmutable (`1:1` con `llamadas`) creado al derivar, que contiene únicamente los datos operativos y de despacho necesarios para el despachador CAD (sin transcripción cruda ni metadatos internos de IA).
 
-> Nota: Las entidades y enumeraciones de la capa de dominio se diseñarán a partir del esquema de datos y las reglas definidas en este documento.
+> El modelo de dominio (`backend/src/domain/`) implementa las entidades, objetos de valor y reglas descriptas en la sección 5 de este documento sobre el esquema SQLite definido a continuación.
 
 ---
 
@@ -200,3 +200,38 @@ Al inicializar una base vacía (`SELECT COUNT(*) FROM categorias === 0`), se eje
    - Si la llamada ya está `DERIVADA` o `DESCARTADA`, cualquier edición, nuevo turno, re-análisis o nueva derivación lanza `InvalidStateTransitionError` (HTTP `409`).
 7. **Descarte (`EN_CURSO` -> `DESCARTADA`)**:
    - Solo válido desde `EN_CURSO`; si ya fue `DERIVADA` o `DESCARTADA`, lanza `InvalidStateTransitionError` (HTTP `409`).
+
+---
+
+## 5. Modelo de Dominio en Capas (`backend/src/domain/`)
+
+La capa de dominio es 100% independiente de SQLite, HTTP y proveedores de IA. Se organiza con granularidad estricta de un archivo por enum y un archivo por entidad u objeto de valor:
+
+### 5.1. Enumeraciones (`backend/src/domain/enums/`)
+Todas definidas como objetos congelados (`Object.freeze(...) as const`) con tipo unión derivado y *type guard* `es<Nombre>`:
+- `OrigenReporte`: `TELEFONIA_911`, `TELEFONIA_103`, `TELEFONIA_107`, `TELEFONIA_147`, `APP_CIUDADANA`, `OTRO` (mantenido como enum para el alcance del challenge; en producción multi-jurisdicción puede evolucionar a tabla maestra).
+- `EstadoLlamada`: `EN_CURSO`, `DERIVADA`, `DESCARTADA`.
+- `PrioridadIncidente`: `P1`, `P2`, `P3`, `P4`.
+- `EstadoPreguntaIA`: `RESPONDIDA`, `AMBIGUA`, `PENDIENTE`.
+- `EstadoPreguntaOperador`: `CONFIRMADA`, `PENDIENTE`, `NO_APLICA`.
+- `NivelCerteza`: `ALTA`, `MEDIA`, `BAJA`.
+- `ProveedorIA`: `mock`, `gemini`, `ollama`, `openai`, `openai-compatible`.
+- `HablanteTurno`: `OPERADOR`, `LLAMANTE`.
+- `CampoEditableLlamada`: claves tipadas de los 12 campos/subcampos protegibles frente a re-análisis (`categoriaId`, `subcategoriaId`, `descripcionIncidente`, `prioridad`, `ubicacion.*`, `riesgosDetectados`, `recursosRecomendadosDespacho`, `notasOperativasDespacho`).
+
+### 5.2. Entidades y Objetos de Valor (`backend/src/domain/entities/`)
+- **Ciclo de vida operativo**:
+  - `Llamada`: agregado raíz con fábricas `crear()` y `rehidratar()`, más `toSnapshot()` / `toJSON()`.
+  - `CartaDespacho`: entregable inmutable generado únicamente por `Llamada.derivar()`, sin transcripción cruda ni telemetría de IA.
+- **Objetos de valor cohesivos**:
+  - `FichaIncidente`: núcleo operativo compartido por `Llamada` (borrador editable) y `CartaDespacho` (ficha validada para CAD).
+  - `UbicacionNormalizada`: calcula automáticamente `camposFaltantes` sobre `calle`, `altura`, `interseccion` y `barrioComuna`, valida ubicación mínima y protege subcampos editados.
+  - `Transcripcion` y `TurnoDialogo`: encapsulan `transcripcionCruda`, parsean turnos al vuelo (`Operador:` / `Llamante:`) y verifican citas textuales mediante `normalizarParaComparacion` (`backend/src/domain/utils/textoNormalizer.ts`).
+  - `ChecklistProtocolo` e `ItemChecklistLlamada`: implementan el Paso 4 determinista de IA (descarte de IDs ajenos, verificación de `citaEvidencia`, cálculo *fail-safe* de `PENDIENTE` por resta, merge preservando decisiones humanas y recarga de protocolo conservando universales confirmadas).
+  - `ItemInstruccionPreArribo`: seguimiento de transmisión (`transmitida`) de directivas pre-arribo.
+  - `RegistroEdicionesOperador`: conjunto inmutable de `CampoEditableLlamada` editados manualmente.
+  - `AnalisisCopiloto` y `MetadatosEjecucionIA`: resultado consolidado del copiloto (`consolidarDesdeDetecciones`) y su telemetría de ejecución.
+- **Catálogo (`SQLite` de lectura)**:
+  - `CategoriaProtocolo`, `SubcategoriaProtocolo`, `PreguntaProtocoloDef`, `InstruccionPreArriboDef` y `ProtocoloSubcategoria`.
+
+> Nota de separación de responsabilidades: `CasoReferenciaCsv` vive en `backend/src/repositories/casoReferenciaCsv.ts` por tratarse de un modelo de lectura del archivo CSV de referencia y no de una entidad del negocio 911/CAD.

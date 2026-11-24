@@ -23,7 +23,7 @@ export type ProveedorIA =
   | 'openai'
   | 'openai-compatible';
 
-export type HablanteTurno = 'OPERADOR' | 'LLAMANTE' | 'SISTEMA';
+export type HablanteTurno = 'OPERADOR' | 'LLAMANTE';
 
 export interface PreguntaProtocoloDef {
   id: number;

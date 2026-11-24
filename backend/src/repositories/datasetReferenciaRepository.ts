@@ -1,4 +1,4 @@
-import type { CasoReferenciaCsv } from '../domain/index.js';
+import type { CasoReferenciaCsv } from './casoReferenciaCsv.js';
 
 export interface DatasetReferenciaRepository {
   findAll(): CasoReferenciaCsv[];
