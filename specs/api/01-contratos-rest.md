@@ -24,6 +24,7 @@
 
 ### `GET /api/health`
 - **Respuesta `200 OK`**:
+  - `status`: `"ok"` cuando el proveedor IA y el catálogo operan normalmente, o `"degraded"` cuando se configuró un proveedor real sin credenciales válidas y cayó al fallback `mock`, o cuando el catálogo está vacío.
   ```json
   {
     "status": "ok",
@@ -77,8 +78,13 @@
     "analizarAhora": true
   }
   ```
-- **Respuesta `201 Created`**: Objeto `Llamada` completo (con `ultimoAnalisis`, `checklist` e `instruccionesPreArribo` poblados si `analizarAhora: true`).
+- **Respuesta `201 Created`**: Objeto `Llamada` completo (incluye `turnos`, `faltantesParaDerivar`, `cartaDespacho: CartaDespacho | null` —poblado cuando `estado === "DERIVADA"— y `ultimoAnalisis`, `checklist` e `instruccionesPreArribo` poblados si `analizarAhora: true`).
 - **Errores**: `400 Bad Request` si `transcripcionCruda` está vacía o `origenReporte` es inválido.
+
+### `POST /api/llamadas/:id/analizar`
+- **Body (Zod, opcional)**: `{ "simularDegradado"?: boolean }`
+- **Respuesta `200 OK`**: `Llamada` actualizada con `ultimoAnalisis` y borrador fusionado respetando overrides humanos.
+- **Errores**: `404` si no existe; `409` si ya fue `DERIVADA` o `DESCARTADA`; `503` si el proveedor LLM falla y `LLM_FALLBACK_TO_MOCK=false`.
 
 ### `POST /api/llamadas/:id/turnos`
 - **Body (Zod)**:
@@ -95,6 +101,7 @@
 
 ### `PATCH /api/llamadas/:id`
 - **Body (Zod)**: Campos parciales editables por el operador:
+  - `transcripcionCruda`
   - `ubicacion`
   - `categoriaId` / `subcategoriaId`
   - `descripcionIncidente`
@@ -140,3 +147,23 @@
 ### `GET /api/cartas-despacho`
 - **Query (opcional)**: `prioridad` (`P1`..`P4`), `categoriaId` (entero).
 - **Respuesta `200 OK`**: Lista ordenada por `derivadaEn DESC` de objetos `CartaDespacho` (sin `transcripcionCruda`).
+
+---
+
+## 3. Formato Estándar de Errores HTTP
+
+Todas las respuestas de error (`4xx` / `5xx`) devuelven un objeto JSON uniforme:
+
+```json
+{
+  "error": "Descripción legible del error",
+  "code": "CODIGO_ESTANDAR",
+  "details": {}
+}
+```
+
+- `400 Bad Request`: `REQUEST_VALIDATION_ERROR`, `DOMAIN_VALIDATION_ERROR`, `BUSINESS_RULE_ERROR`, `INVALID_JSON`.
+- `404 Not Found`: `NOT_FOUND`, `ROUTE_NOT_FOUND`.
+- `409 Conflict`: `INVALID_STATE_TRANSITION`, `CONFLICT`.
+- `503 Service Unavailable`: `AI_PROVIDER_UNAVAILABLE`, `AI_PROVIDER_CONFIG_ERROR`.
+- `500 Internal Server Error`: `INTERNAL_SERVER_ERROR` (sin stack traces ni secretos).
