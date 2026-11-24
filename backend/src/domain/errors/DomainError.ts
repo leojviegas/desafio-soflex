@@ -27,7 +27,7 @@ export class DomainValidationError extends DomainError {
 }
 
 /**
- * Error cuando se intenta mutar o transicionar una CartaLlamada en un estado incompatible.
+ * Error cuando se intenta mutar o transicionar una Llamada en un estado incompatible.
  */
 export class InvalidStateTransitionError extends DomainError {
   constructor(message: string, details: Record<string, unknown> | null = null) {

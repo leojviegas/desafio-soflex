@@ -1,18 +1,13 @@
 import fs from 'node:fs';
 import {
-  esCategoriaIncidente,
+  CasoReferenciaCsv,
   esOrigenReporte,
   esPrioridadIncidente,
-  ProtocoloReferencia,
-  type CategoriaIncidente,
   type OrigenReporte,
   type PrioridadIncidente,
 } from '../domain/index.js';
 import { parseCsv } from './csvParser.js';
-import type {
-  ProtocoloCatalogRepository,
-  ProtocoloPorCategoria,
-} from './protocoloCatalogRepository.js';
+import type { DatasetReferenciaRepository } from './datasetReferenciaRepository.js';
 
 const EXPECTED_HEADERS = [
   'id_registro',
@@ -42,25 +37,9 @@ function splitDelimitedList(value: string, separator: string): string[] {
     .filter((item) => item.length > 0);
 }
 
-function addUnique(target: Set<string>, items: readonly string[]): void {
-  for (const item of items) {
-    const clean = item.trim();
-    if (clean.length > 0) {
-      target.add(clean);
-    }
-  }
-}
-
 function parseOrigen(value: string, rowNumber: number): OrigenReporte {
   if (!esOrigenReporte(value)) {
     throw new Error(`Fila ${rowNumber}: origen_reporte inválido "${value}".`);
-  }
-  return value;
-}
-
-function parseCategoria(value: string, rowNumber: number): CategoriaIncidente {
-  if (!esCategoriaIncidente(value)) {
-    throw new Error(`Fila ${rowNumber}: categoria inválida "${value}".`);
   }
   return value;
 }
@@ -73,15 +52,14 @@ function parsePrioridad(value: string, rowNumber: number): PrioridadIncidente {
 }
 
 /**
- * Catálogo en memoria indexado desde `docs/dataset_challenge_soflex.csv`.
+ * Repositorio en memoria de casos de referencia cargados desde `docs/dataset_challenge_soflex.csv`.
  */
-export class CsvProtocoloCatalogRepository implements ProtocoloCatalogRepository {
-  private readonly registros: ProtocoloReferencia[];
-  private readonly byId = new Map<string, ProtocoloReferencia>();
-  private readonly byCategoria = new Map<CategoriaIncidente, ProtocoloReferencia[]>();
-  private readonly protocolosPorCategoria: ProtocoloPorCategoria[];
+export class CsvDatasetReferenciaRepository implements DatasetReferenciaRepository {
+  private readonly registros: CasoReferenciaCsv[];
+  private readonly byId = new Map<string, CasoReferenciaCsv>();
+  private readonly byCategoria = new Map<string, CasoReferenciaCsv[]>();
 
-  private constructor(registros: ProtocoloReferencia[]) {
+  private constructor(registros: CasoReferenciaCsv[]) {
     this.registros = registros;
 
     for (const registro of registros) {
@@ -90,45 +68,19 @@ export class CsvProtocoloCatalogRepository implements ProtocoloCatalogRepository
       list.push(registro);
       this.byCategoria.set(registro.categoria, list);
     }
-
-    this.protocolosPorCategoria = [...this.byCategoria.entries()].map(
-      ([categoria, items]) => {
-        const subcategorias = new Set<string>();
-        const preguntasMandatorias = new Set<string>();
-        const instruccionesPreArribo = new Set<string>();
-        const riesgosFrecuentes = new Set<string>();
-        const recursosRecomendados = new Set<string>();
-
-        for (const item of items) {
-          addUnique(subcategorias, [item.subcategoria]);
-          addUnique(preguntasMandatorias, item.preguntasProtocoloMandatorias);
-          addUnique(instruccionesPreArribo, [item.instruccionesPrearribo]);
-          addUnique(riesgosFrecuentes, item.riesgosDetectados);
-          addUnique(recursosRecomendados, item.recursosRecomendadosDespacho);
-        }
-
-        return {
-          categoria,
-          subcategorias: [...subcategorias],
-          preguntasMandatorias: [...preguntasMandatorias],
-          instruccionesPreArribo: [...instruccionesPreArribo],
-          riesgosFrecuentes: [...riesgosFrecuentes],
-          recursosRecomendados: [...recursosRecomendados],
-          cantidadCasos: items.length,
-        };
-      },
-    );
   }
 
-  static fromFile(filePath: string): CsvProtocoloCatalogRepository {
+  static fromFile(filePath: string): CsvDatasetReferenciaRepository {
     const content = fs.readFileSync(filePath, 'utf8');
-    return CsvProtocoloCatalogRepository.fromCsvContent(content);
+    return CsvDatasetReferenciaRepository.fromCsvContent(content);
   }
 
-  static fromCsvContent(csvContent: string): CsvProtocoloCatalogRepository {
+  static fromCsvContent(csvContent: string): CsvDatasetReferenciaRepository {
     const rows = parseCsv(csvContent);
     if (rows.length < 2) {
-      throw new Error('El archivo CSV del catálogo no contiene encabezados y registros válidos.');
+      throw new Error(
+        'El archivo CSV del dataset no contiene encabezados y registros válidos.',
+      );
     }
 
     const header = rows[0]!;
@@ -146,7 +98,7 @@ export class CsvProtocoloCatalogRepository implements ProtocoloCatalogRepository
       }
     }
 
-    const registros: ProtocoloReferencia[] = [];
+    const registros: CasoReferenciaCsv[] = [];
     for (let r = 1; r < rows.length; r++) {
       const cols = rows[r]!;
       const rowNumber = r + 1;
@@ -161,13 +113,18 @@ export class CsvProtocoloCatalogRepository implements ProtocoloCatalogRepository
         throw new Error(`Fila ${rowNumber}: id_registro vacío.`);
       }
 
+      const categoria = cols[3]!.trim();
+      if (categoria.length === 0) {
+        throw new Error(`Fila ${rowNumber}: categoria vacía.`);
+      }
+
       registros.push(
-        new ProtocoloReferencia({
+        new CasoReferenciaCsv({
           idRegistro,
           timestampLlamada: cols[1]!,
           origenReporte: parseOrigen(cols[2]!, rowNumber),
-          categoria: parseCategoria(cols[3]!, rowNumber),
-          subcategoria: cols[4]!,
+          categoria,
+          descripcionIncidente: cols[4]!,
           prioridadSugerida: parsePrioridad(cols[5]!, rowNumber),
           transcripcionCruda: cols[6]!,
           calleDetectada: cols[7],
@@ -185,33 +142,22 @@ export class CsvProtocoloCatalogRepository implements ProtocoloCatalogRepository
       );
     }
 
-    return new CsvProtocoloCatalogRepository(registros);
+    return new CsvDatasetReferenciaRepository(registros);
   }
 
-  findAll(): ProtocoloReferencia[] {
-    return this.registros.map((r) => new ProtocoloReferencia(r.toJSON()));
+  findAll(): CasoReferenciaCsv[] {
+    return this.registros.map((r) => new CasoReferenciaCsv(r.toSnapshot()));
   }
 
-  findById(idRegistro: string): ProtocoloReferencia | null {
+  findById(idRegistro: string): CasoReferenciaCsv | null {
     const found = this.byId.get(idRegistro);
-    return found ? new ProtocoloReferencia(found.toJSON()) : null;
+    return found ? new CasoReferenciaCsv(found.toSnapshot()) : null;
   }
 
-  findByCategoria(categoria: CategoriaIncidente): ProtocoloReferencia[] {
+  findByCategoria(categoria: string): CasoReferenciaCsv[] {
     return (this.byCategoria.get(categoria) ?? []).map(
-      (r) => new ProtocoloReferencia(r.toJSON()),
+      (r) => new CasoReferenciaCsv(r.toSnapshot()),
     );
-  }
-
-  getProtocolosPorCategoria(): ProtocoloPorCategoria[] {
-    return this.protocolosPorCategoria.map((p) => ({
-      ...p,
-      subcategorias: [...p.subcategorias],
-      preguntasMandatorias: [...p.preguntasMandatorias],
-      instruccionesPreArribo: [...p.instruccionesPreArribo],
-      riesgosFrecuentes: [...p.riesgosFrecuentes],
-      recursosRecomendados: [...p.recursosRecomendados],
-    }));
   }
 
   count(): number {

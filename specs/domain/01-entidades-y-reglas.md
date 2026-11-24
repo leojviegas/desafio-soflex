@@ -1,170 +1,19 @@
-# Especificación de Dominio 01: Entidades, Catálogo de Protocolos y Base de Datos SQLite
+# Especificación 01: Modelo de Datos SQLite, Catálogo de Protocolos y Reglas de Negocio
 
 ## 1. Propósito y Alcance
 
-Define el modelo de dominio, el catálogo normalizado de protocolos, las reglas de negocio y el esquema de persistencia en `SQLite` del **Copiloto Asistente para Operadores de Sala**, alineado con [docs/enunciado.md](../../docs/enunciado.md) y [docs/dataset_challenge_soflex.csv](../../docs/dataset_challenge_soflex.csv).
+Define el esquema de persistencia en `SQLite`, el catálogo normalizado de protocolos y las reglas de negocio del **Copiloto Asistente para Operadores de Sala**, alineado con [docs/enunciado.md](../../docs/enunciado.md) y [docs/dataset_challenge_soflex.csv](../../docs/dataset_challenge_soflex.csv).
 
 El diseño separa explícitamente tres planos:
 1. **Catálogo de Protocolos (SQLite relacional)**: `categorias` -> `subcategorias` -> `preguntas_protocolo` e `instrucciones_prearribo_protocolo`, con IDs enteros autoincrementales.
-2. **Sesión de Trabajo del Operador (`Llamada`)**: expediente mutable mientras está `EN_CURSO` que conserva la `transcripcionCruda`, el borrador editable, el checklist vivo con estado IA/operador, las instrucciones de pre-arribo transmitidas y la auditoría de overrides manuales.
-3. **Entregable Formal a CAD (`CartaDespacho`)**: registro inmutable (`1:1` con `Llamada`) creado al derivar, que contiene únicamente los datos operativos y de despacho necesarios para el despachador CAD (sin transcripción cruda ni metadatos internos de IA).
+2. **Sesión de Trabajo del Operador (`llamadas`)**: expediente mutable mientras está `EN_CURSO` que conserva la `transcripcion_cruda`, el borrador editable, el checklist vivo, las instrucciones de pre-arribo transmitidas y la auditoría de overrides manuales.
+3. **Entregable Formal a CAD (`cartas_despacho`)**: registro inmutable (`1:1` con `llamadas`) creado al derivar, que contiene únicamente los datos operativos y de despacho necesarios para el despachador CAD (sin transcripción cruda ni metadatos internos de IA).
+
+> Nota: Las entidades y enumeraciones de la capa de dominio se diseñarán a partir del esquema de datos y las reglas definidas en este documento.
 
 ---
 
-## 2. Enumeraciones (`backend/src/domain/enums/`)
-
-- **`OrigenReporte`** (almacenado como `TEXT` con restricción `CHECK`, sin tabla auxiliar):
-  `TELEFONIA_911`, `TELEFONIA_103`, `TELEFONIA_107`, `TELEFONIA_147`, `APP_CIUDADANA`, `OTRO`
-- **`PrioridadIncidente`**:
-  - `P1`: Crítica / riesgo de vida inminente o peligro activo grave
-  - `P2`: Alta / urgencia con riesgo moderado o afectación relevante sin compromiso vital inmediato confirmado
-  - `P3`: Media / daño material acotado, riesgo bajo o interrupción vial sin heridos
-  - `P4`: Baja / reclamo administrativo o preventivo sin riesgo para personas ni infraestructura (definido explícitamente porque el CSV base no contiene casos `P4`)
-- **`EstadoLlamada`**:
-  `EN_CURSO`, `DERIVADA`, `DESCARTADA`
-- **`EstadoPreguntaIA`**:
-  - `PENDIENTE`: no detectada en la transcripción (calculada determinísticamente por resta en el backend)
-  - `RESPONDIDA`: respondida explícitamente en la transcripción con `citaEvidencia` verificada
-  - `AMBIGUA`: mencionada de forma vaga/contradictoria o cuya `citaEvidencia` no superó la verificación textual del backend
-- **`EstadoPreguntaOperador`**:
-  `CONFIRMADA`, `PENDIENTE`, `NO_APLICA`
-- **`NivelCerteza`**:
-  `ALTA`, `MEDIA`, `BAJA`
-- **`ProveedorIA`**:
-  `mock`, `gemini`, `ollama`, `openai`, `openai-compatible`
-- **`HablanteTurno`** (usado solo al parsear turnos al vuelo desde `transcripcionCruda` o al anexar nuevos diálogos):
-  `OPERADOR`, `LLAMANTE`, `SISTEMA`
-
----
-
-## 3. Entidades del Catálogo de Protocolos (`backend/src/domain/entities/`)
-
-Todas las entidades de catálogo utilizan claves primarias enteras autoincrementales en `SQLite` (`INTEGER PRIMARY KEY AUTOINCREMENT`) y un `nombre` canónico único.
-
-### 3.1. `CategoriaProtocolo`
-- `id: number` (entero positivo)
-- `nombre: string` (único; valores alineados al CSV + respaldo: `INCENDIO_RESCATE`, `ACCIDENTE_VIAL`, `EMERGENCIA_MEDICA`, `DEFENSA_CIVIL`, `SERVICIOS_PUBLICOS`, `CONVIVENCIA_SEGURIDAD`, `OTRO`)
-- `etiqueta: string` (nombre legible en UI, ej. `"Incendio y Rescate"`)
-
-### 3.2. `SubcategoriaProtocolo`
-Representa la tipología operativa estandarizada dentro de una categoría (mientras que la vieja columna `subcategoria` del CSV pasa a ser el texto libre `descripcionIncidente` del caso puntual).
-- `id: number`
-- `categoriaId: number` (FK a `categorias.id`)
-- `nombre: string` (único, ej. `incendio_estructural`, `rescate_ascensor`)
-- `etiqueta: string` (nombre legible en UI, ej. `"Incendio estructural"`)
-- `criterio: string` (descripción corta que orienta al LLM y al operador sobre qué incidentes abarca)
-
-### 3.3. `PreguntaProtocoloDef`
-- `id: number`
-- `subcategoriaId: number | null` (`null` indica pregunta **universal** aplicable a toda llamada; entero indica FK a `subcategorias.id`)
-- `texto: string` (redacción corta para lectura rápida en sala)
-- `critica: boolean` (`true` si es pregunta obligatoria prioritaria)
-- `pistasMock: string[]` (palabras clave/expresiones utilizadas por `MockCopilotAnalyzer` para detectar respuestas en la transcripción)
-
-### 3.4. `InstruccionPreArriboDef`
-No se envía al LLM; el backend la consulta determinísticamente en `SQLite` a partir de `subcategoriaId`.
-- `id: number`
-- `subcategoriaId: number` (FK a `subcategorias.id`)
-- `texto: string` (directiva verificada para leer de inmediato al ciudadano)
-- `critica: boolean` (`true` para prohibiciones o acciones vitales)
-
----
-
-## 4. Entidades y Objetos de Valor de Operación (`backend/src/domain/entities/`)
-
-### 4.1. `UbicacionNormalizada`
-- `calle: string | null`
-- `altura: string | null`
-- `interseccion: string | null`
-- `barrioComuna: string | null`
-- `referencia: string | null`
-- `camposFaltantes: string[]` (ej. `["altura", "interseccion"]` si no figuraron explícitamente en la transcripción)
-
-### 4.2. `TurnoDialogo` (Value Object derivado al vuelo)
-No se persiste duplicado en BD; se construye parseando `transcripcionCruda` cuando la UI o el servicio necesita visualizar turnos separados.
-- `indice: number`
-- `hablante: HablanteTurno`
-- `texto: string`
-
-### 4.3. `ItemChecklistLlamada`
-Une la definición del catálogo con la evaluación automática del copiloto y el control humano del operador.
-- `preguntaId: number` (FK lógica a `preguntas_protocolo.id`)
-- `texto: string`
-- `critica: boolean`
-- `esUniversal: boolean`
-- `estadoIA: EstadoPreguntaIA` (`PENDIENTE` | `RESPONDIDA` | `AMBIGUA`)
-- `respuestaIA: string | null`
-- `citaEvidencia: string | null` (fragmento literal de `transcripcionCruda`; `null` si `estadoIA === "PENDIENTE"`)
-- `evidenciaVerificada: boolean` (`true` solo si el backend verificó la cita contra `transcripcionCruda`)
-- `estadoOperador: EstadoPreguntaOperador | null` (override humano; si no es `null`, prevalece en UI sobre `estadoIA`)
-- `notaOperador: string | null`
-
-### 4.4. `ItemInstruccionPreArribo`
-- `instruccionId: number` (FK lógica a `instrucciones_prearribo_protocolo.id`)
-- `texto: string`
-- `critica: boolean`
-- `transmitida: boolean` (tildada por el operador al leerla al ciudadano)
-
-### 4.5. `AnalisisCopiloto` (Snapshot inmutable de la última corrida IA / Mock)
-- `categoriaId: number`
-- `subcategoriaId: number`
-- `descripcionIncidente: string` (título breve puntual del hecho, equivalente a la columna `subcategoria` del CSV)
-- `ubicacion: UbicacionNormalizada`
-- `prioridadSugerida: PrioridadIncidente`
-- `checklist: ItemChecklistLlamada[]` (resultado completo ya validado y completado por resta en backend)
-- `instruccionesPreArribo: ItemInstruccionPreArribo[]` (cargadas determinísticamente desde `SQLite` según `subcategoriaId`)
-- `riesgosDetectados: string[]`
-- `recursosRecomendadosDespacho: string[]`
-- `notasOperativasDespacho: string`
-- `confianzaGlobal: NivelCerteza`
-- `proveedorUsado: ProveedorIA`
-- `modeloUsado: string`
-- `latenciaMs: number`
-- `degradado: boolean`
-- `motivoDegradacion: string | null`
-
-### 4.6. `Llamada` (Agregado Raíz de Sesión del Operador)
-- `id: string` (UUID)
-- `origenReporte: OrigenReporte`
-- `estado: EstadoLlamada` (inicia en `EN_CURSO`)
-- `transcripcionCruda: string` (única fuente de verdad del diálogo; al agregar un nuevo turno se anexa como nueva línea `Operador: ...` / `Llamante: ...`)
-- `categoriaId: number | null`
-- `subcategoriaId: number | null`
-- `descripcionIncidente: string`
-- `prioridad: PrioridadIncidente | null`
-- `ubicacion: UbicacionNormalizada`
-- `checklist: ItemChecklistLlamada[]`
-- `instruccionesPreArribo: ItemInstruccionPreArribo[]`
-- `riesgosDetectados: string[]`
-- `recursosRecomendadosDespacho: string[]`
-- `notasOperativasDespacho: string`
-- `ultimoAnalisis: AnalisisCopiloto | null` (foto intacta de la última sugerencia del copiloto)
-- `camposEditadosPorOperador: string[]` (ej. `["prioridad", "ubicacion.altura", "notasOperativasDespacho"]`)
-- `creadaEn: string` (ISO 8601)
-- `actualizadaEn: string` (ISO 8601)
-
-### 4.7. `CartaDespacho` (Entregable Formal e Inmutable hacia CAD)
-Se crea únicamente al ejecutar la derivación de una `Llamada` (`1:1`). No contiene `transcripcionCruda`, `ultimoAnalisis`, `checklist` ni `instruccionesPreArribo`.
-- `id: string` (UUID)
-- `llamadaId: string` (único, FK a `llamadas.id`)
-- `origenReporte: OrigenReporte`
-- `categoriaId: number` (FK a `categorias.id`)
-- `subcategoriaId: number` (FK a `subcategorias.id`)
-- `descripcionIncidente: string`
-- `prioridad: PrioridadIncidente`
-- `ubicacion: UbicacionNormalizada`
-- `riesgosDetectados: string[]`
-- `recursosRecomendadosDespacho: string[]`
-- `notasOperativasDespacho: string`
-- `derivadaEn: string` (ISO 8601)
-
-### 4.8. `CasoReferenciaCsv` (Banco de Pruebas y Retrieval Few-Shot)
-Modela las 30 filas de `docs/dataset_challenge_soflex.csv` cargadas en memoria al iniciar el backend (sin persistirse en `llamadas`):
-- `idRegistro`, `timestampLlamada`, `origenReporte`, `categoria`, `descripcionIncidente` (mapeado desde columna `subcategoria` del CSV), `prioridadSugerida`, `transcripcionCruda`, `calleDetectada`, `alturaDetectada`, `interseccionDetectada`, `barrioComuna`, `preguntasProtocoloMandatorias`, `preguntasRespondidasEnRelato`, `preguntasPendientes`, `instruccionesPrearribo`, `riesgosDetectados`, `recursosRecomendadosDespacho`, `notasOperativasDespacho`.
-
----
-
-## 5. Esquema de Base de Datos SQLite (`backend/src/repositories/sqliteDatabase.ts`)
+## 2. Esquema de Base de Datos SQLite (`backend/src/repositories/sqliteDatabase.ts`)
 
 Enfoque mixto:
 - **Catálogo 100% relacional** con `INTEGER PRIMARY KEY AUTOINCREMENT` y `FOREIGN KEY` activas (`PRAGMA foreign_keys = ON`).
@@ -286,7 +135,7 @@ CREATE INDEX IF NOT EXISTS idx_cartas_despacho_prioridad
 
 ---
 
-## 6. Seed Inicial del Catálogo en SQLite (Cobertura de los 30 Casos del CSV)
+## 3. Seed Inicial del Catálogo en SQLite (Cobertura de los 30 Casos del CSV)
 
 Al inicializar una base vacía (`SELECT COUNT(*) FROM categorias === 0`), se ejecuta un seed determinista dentro de una transacción con:
 
@@ -325,7 +174,15 @@ Al inicializar una base vacía (`SELECT COUNT(*) FROM categorias === 0`), se eje
 
 ---
 
-## 7. Invariantes y Máquina de Estados
+## 4. Invariantes, Prioridades y Máquina de Estados
+
+### Criterios de severidad (`P1` a `P4`)
+- `P1`: Crítica / riesgo de vida inminente o peligro activo grave.
+- `P2`: Alta / urgencia con riesgo moderado o afectación relevante sin compromiso vital inmediato confirmado.
+- `P3`: Media / daño material acotado, riesgo bajo o interrupción vial sin heridos.
+- `P4`: Baja / reclamo administrativo o preventivo sin riesgo para personas ni infraestructura (definido explícitamente porque el CSV base no contiene casos `P4`).
+
+### Reglas e invariantes operativos
 
 1. **Transcripción obligatoria**: No se puede crear ni analizar una `Llamada` con `transcripcionCruda` vacía (`DomainValidationError`).
 2. **Prohibición de alucinación en ubicación**: Todo dato de ubicación que no figure explícitamente en `transcripcionCruda` queda en `null` y se lista en `ubicacion.camposFaltantes`.
