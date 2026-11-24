@@ -1,0 +1,44 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_PATH: /app/data/soflex-copilot.db
+      DATASET_CSV_PATH: /app/docs/dataset_challenge_soflex.csv
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_TEMPERATURE: ${LLM_TEMPERATURE:-0.1}
+      LLM_TIMEOUT_MS: ${LLM_TIMEOUT_MS:-15000}
+      LLM_FALLBACK_TO_MOCK: ${LLM_FALLBACK_TO_MOCK:-true}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+    volumes:
+      - soflex_sqlite_data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  soflex_sqlite_data:
