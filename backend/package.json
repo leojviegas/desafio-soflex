@@ -14,8 +14,13 @@
     "db:init": "tsx src/scripts/initDatabase.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.113",
+    "@ai-sdk/openai": "^2.0.143",
+    "@ai-sdk/openai-compatible": "^1.0.63",
+    "ai": "^5.0.292",
     "dotenv": "^16.5.0",
-    "zod": "^3.25.0"
+    "ollama-ai-provider-v2": "^1.5.5",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
