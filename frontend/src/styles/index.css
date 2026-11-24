@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces - Tactical 24/7 Dark */
+  --bg-canvas: #090e15;
+  --bg-surface: #101722;
+  --bg-surface-2: #16202f;
+  --bg-elevated: #1c283a;
+  --bg-input: #0c121b;
+  --bg-hover: rgba(148, 163, 184, 0.08);
+
+  /* Borders */
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.28);
+  --border-focus: #38bdf8;
+
+  /* Typography */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #090e15;
+
+  /* Accent (Operational Cyan-Blue) */
+  --accent-primary: #0ea5e9;
+  --accent-primary-hover: #38bdf8;
+  --accent-primary-soft: rgba(14, 165, 233, 0.14);
+  --accent-primary-text: #7dd3fc;
+
+  /* Semantic Status & Origin */
+  --ai-bg: rgba(99, 102, 241, 0.16);
+  --ai-border: rgba(129, 140, 248, 0.35);
+  --ai-text: #a5b4fc;
+
+  --human-bg: rgba(16, 185, 129, 0.14);
+  --human-border: rgba(52, 211, 153, 0.38);
+  --human-text: #6ee7b7;
+
+  --missing-bg: rgba(245, 158, 11, 0.12);
+  --missing-border: rgba(251, 191, 36, 0.52);
+  --missing-text: #fcd34d;
+
+  /* Priority Scale P1-P4 */
+  --p1-bg: rgba(239, 68, 68, 0.16);
+  --p1-solid: #dc2626;
+  --p1-border: rgba(248, 113, 113, 0.65);
+  --p1-text: #fca5a5;
+
+  --p2-bg: rgba(245, 158, 11, 0.16);
+  --p2-solid: #d97706;
+  --p2-border: rgba(251, 191, 36, 0.6);
+  --p2-text: #fcd34d;
+
+  --p3-bg: rgba(234, 179, 8, 0.15);
+  --p3-solid: #ca8a04;
+  --p3-border: rgba(250, 204, 21, 0.55);
+  --p3-text: #fde047;
+
+  --p4-bg: rgba(100, 116, 139, 0.2);
+  --p4-solid: #475569;
+  --p4-border: rgba(148, 163, 184, 0.45);
+  --p4-text: #cbd5e1;
+
+  /* Pre-Arrival Critical Rail */
+  --prearrival-bg: rgba(239, 68, 68, 0.08);
+  --prearrival-border: rgba(248, 113, 113, 0.45);
+  --prearrival-rail: #ef4444;
+  --prearrival-header: #fecaca;
+
+  /* Banner states */
+  --degraded-bg: rgba(245, 158, 11, 0.14);
+  --degraded-border: rgba(251, 191, 36, 0.45);
+  --degraded-text: #fde68a;
+
+  --derived-bg: rgba(16, 185, 129, 0.14);
+  --derived-border: rgba(52, 211, 153, 0.45);
+  --derived-text: #a7f3d0;
+
+  /* Scrollbar */
+  --scroll-track: #0b111a;
+  --scroll-thumb: #243247;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-canvas: #eef2f6;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #f8fafc;
+  --bg-elevated: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-hover: rgba(15, 23, 42, 0.05);
+
+  --border-subtle: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(15, 23, 42, 0.22);
+  --border-focus: #0284c7;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  --accent-primary: #0284c7;
+  --accent-primary-hover: #0369a1;
+  --accent-primary-soft: rgba(2, 132, 199, 0.1);
+  --accent-primary-text: #0369a1;
+
+  --ai-bg: rgba(79, 70, 229, 0.1);
+  --ai-border: rgba(79, 70, 229, 0.28);
+  --ai-text: #4338ca;
+
+  --human-bg: rgba(5, 150, 105, 0.1);
+  --human-border: rgba(5, 150, 105, 0.32);
+  --human-text: #047857;
+
+  --missing-bg: rgba(217, 119, 6, 0.1);
+  --missing-border: rgba(217, 119, 6, 0.55);
+  --missing-text: #b45309;
+
+  --p1-bg: rgba(220, 38, 38, 0.1);
+  --p1-solid: #dc2626;
+  --p1-border: rgba(220, 38, 38, 0.45);
+  --p1-text: #b91c1c;
+
+  --p2-bg: rgba(217, 119, 6, 0.12);
+  --p2-solid: #d97706;
+  --p2-border: rgba(217, 119, 6, 0.45);
+  --p2-text: #b45309;
+
+  --p3-bg: rgba(161, 98, 7, 0.12);
+  --p3-solid: #a16207;
+  --p3-border: rgba(161, 98, 7, 0.45);
+  --p3-text: #854d0e;
+
+  --p4-bg: rgba(71, 85, 105, 0.12);
+  --p4-solid: #475569;
+  --p4-border: rgba(71, 85, 105, 0.35);
+  --p4-text: #334155;
+
+  --prearrival-bg: rgba(220, 38, 38, 0.05);
+  --prearrival-border: rgba(220, 38, 38, 0.35);
+  --prearrival-rail: #dc2626;
+  --prearrival-header: #991b1b;
+
+  --degraded-bg: rgba(217, 119, 6, 0.12);
+  --degraded-border: rgba(217, 119, 6, 0.45);
+  --degraded-text: #92400e;
+
+  --derived-bg: rgba(5, 150, 105, 0.1);
+  --derived-border: rgba(5, 150, 105, 0.38);
+  --derived-text: #065f46;
+
+  --scroll-track: #e2e8f0;
+  --scroll-thumb: #94a3b8;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .font-mono-tabular {
+    font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Compact custom scrollbars for 3-column tactical console */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 3px;
+}
+
+@keyframes pulse-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.animate-pulse-bar {
+  animation: pulse-bar 1.2s ease-in-out infinite;
+}

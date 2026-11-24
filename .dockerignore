@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+**/node_modules
+**/dist
+**/build
+**/*.db
+**/*.db-journal
+**/*.db-wal
+**/*.db-shm
+backend/data
+backend/tests
+coverage
+.agents
+docs/ai-log
