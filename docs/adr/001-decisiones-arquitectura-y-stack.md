@@ -46,7 +46,7 @@ Se adopta **TypeScript estricto** tanto en `backend/` como en `frontend/`.
    - Añade peso de imagen, healthchecks y configuración innecesaria para un prototipo autocontenido de entrega rápida.
 
 ### Decisión Adoptada
-Se adopta **SQLite embebido** detrás de repositorios desacoplados, con soporte `:memory:` para la suite de tests.
+Se adopta **SQLite embebido** detrás de repositorios desacoplados, con soporte `:memory:` para la suite de tests. El detalle de las tablas relacionales del catálogo (`categorias`, `subcategorias`, `preguntas_protocolo`, `instrucciones_prearribo_protocolo`) y la separación `llamadas` / `cartas_despacho` se documenta en [ADR 002](./002-modelo-catalogo-protocolos-y-separacion-carta-despacho.md).
 
 ---
 

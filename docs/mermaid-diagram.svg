@@ -1,0 +1,306 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2482.6789999999996 1706" width="2482.6789999999996" height="1706" style="--bg:#18181B;--fg:#F4F4F5;--line:#71717A;--muted:#A1A1AA;--surface:#27272A;--border:#3F3F46;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  .mono { font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="cls-inherit" markerWidth="12" markerHeight="10" refX="12" refY="5" orient="auto-start-reverse">
+    <polygon points="0 0, 12 5, 0 10" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerWidth="12" markerHeight="10" refX="0" refY="5" orient="auto-start-reverse">
+    <polygon points="6 0, 12 5, 6 10, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerWidth="12" markerHeight="10" refX="0" refY="5" orient="auto-start-reverse">
+    <polygon points="6 0, 12 5, 6 10, 0 5" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto-start-reverse">
+    <polyline points="0 0, 8 3, 0 6" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+</defs>
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="TurnoDialogo" data-type="composition" data-marker-at="from" data-label="turnos" data-to-cardinality="1..*" points="1420.5479999999998,548 1420.5479999999998,568 2138.489,568 2138.4889999999996,862" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="AnalisisCopiloto" data-type="composition" data-marker-at="from" data-label="ultimoAnalisis" data-to-cardinality="0..1" points="1297.9879999999998,548 1297.9879999999998,588 1099.1529999999998,588 1099.153,819.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="UbicacionNormalizada" data-type="composition" data-marker-at="from" data-label="ubicacionValidada" data-to-cardinality="1" points="1236.7079999999999,548 1236.7079999999996,568 544.344,568 544.344,1284 930.8696666666667,1284 930.8696666666667,1334" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="PreguntaProtocolo" data-type="composition" data-marker-at="from" data-label="preguntasProtocolo" data-to-cardinality="0..*" points="1451.1879999999999,548 1451.1879999999996,558 2334.989,558 2334.989,1340.6666666666667" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="InstruccionPreArribo" data-type="composition" data-marker-at="from" data-label="instruccionesPreArribo" data-to-cardinality="0..*" points="1389.908,548 1389.9079999999997,578 1815.2909999999997,578 1815.2909999999997,1334" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="UbicacionNormalizada" data-type="composition" data-marker-at="from" data-label="ubicacion" data-to-cardinality="1" points="1030.8029999999999,1127.5 1030.8029999999999,1334" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="PreguntaProtocolo" data-type="composition" data-marker-at="from" data-label="preguntasProtocolo" data-to-cardinality="0..*" points="1167.503,1127.5 1167.503,1160 1537.6009999999997,1160 1537.6009999999997,1284 2246.0556666666666,1284 2246.0556666666666,1340.6666666666667" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="InstruccionPreArribo" data-type="composition" data-marker-at="from" data-label="instruccionesPreArribo" data-to-cardinality="0..*" points="1133.328,1127.5 1133.328,1170 1526.6009999999997,1170 1526.6009999999997,1294 1697.7576666666664,1294 1697.7576666666664,1334" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-composition)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="OrigenReporte" data-type="dependency" data-marker-at="to" points="1206.068,548 1206.0679999999998,558 433.78200000000015,558 433.78200000000015,1150 595.344,1150 595.344,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="EstadoCartaLlamada" data-type="dependency" data-marker-at="to" points="1359.2679999999998,548 1359.2679999999998,588 1410.8469999999998,588 1410.8469999999998,608" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="CategoriaIncidente" data-type="dependency" data-marker-at="to" points="1328.628,548 1328.628,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="CartaLlamada" data-to="PrioridadIncidente" data-type="dependency" data-marker-at="to" points="1267.348,548 1267.3479999999997,578 624.8530000000001,578 624.8530000000001,1160 747.2485000000001,1160 747.2485,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="TurnoDialogo" data-to="HablanteTurno" data-type="dependency" data-marker-at="to" points="2138.4889999999996,1010 2138.4889999999996,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="PreguntaProtocolo" data-to="EstadoPreguntaProtocolo" data-type="dependency" data-marker-at="to" points="2290.5223333333333,1528.6666666666667 2290.5223333333333,1602" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="CategoriaIncidente" data-type="dependency" data-marker-at="to" points="1099.153,1127.5 1099.153,1180 1296.3529999999996,1180 1296.3529999999998,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="PrioridadIncidente" data-type="dependency" data-marker-at="to" points="996.6279999999999,1127.5 996.6279999999999,1150 811.0575000000001,1150 811.0575,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="NivelCerteza" data-type="dependency" data-marker-at="to" points="1201.6779999999999,1127.5 1201.6779999999999,1150 1745.2909999999997,1150 1745.2909999999997,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="AnalisisCopiloto" data-to="ProveedorIA" data-type="dependency" data-marker-at="to" points="1064.978,1127.5 1064.978,1190 1131.8029999999999,1190 1131.8029999999999,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="ProtocoloReferencia" data-to="OrigenReporte" data-type="dependency" data-marker-at="to" points="707.503,1140 707.5030000000002,1150 635.344,1150 635.344,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="ProtocoloReferencia" data-to="CategoriaIncidente" data-type="dependency" data-marker-at="to" points="850.8030000000001,1140 850.8030000000001,1200 1264.0779999999997,1200 1264.078,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="ProtocoloReferencia" data-to="PrioridadIncidente" data-type="dependency" data-marker-at="to" points="779.153,1140 779.153,1210" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<polyline class="class-relationship" data-from="DomainError" data-to="DomainValidationError" data-type="inheritance" data-marker-at="from" points="219.41833333333332,128 219.41833333333332,138 337.376,138 337.376,188" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-inherit)" />
+<polyline class="class-relationship" data-from="DomainError" data-to="InvalidStateTransitionError" data-type="inheritance" data-marker-at="from" points="130.485,128 130.485,188" fill="none" stroke="var(--_line)" stroke-width="1" marker-start="url(#cls-inherit)" />
+<g class="class-node" data-id="CartaLlamada" data-label="CartaLlamada">
+  <rect x="1175.4279999999999" y="40" width="306.4" height="508" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1175.4279999999999" y="40" width="306.4" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1328.628" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">CartaLlamada</text>
+  <line x1="1175.4279999999999" y1="72" x2="1481.828" y2="72" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1183.4279999999999" y="86" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="106" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">origenReporte</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">OrigenReporte</tspan></text>
+  <text x="1183.4279999999999" y="126" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">estado</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">EstadoCartaLlamada</tspan></text>
+  <text x="1183.4279999999999" y="146" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">datasetRefId</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="1183.4279999999999" y="166" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">transcripcionCruda</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="186" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">subcategoriaValidada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="206" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">categoriaValidada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">CategoriaIncidente|null</tspan></text>
+  <text x="1183.4279999999999" y="226" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">prioridadValidada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">PrioridadIncidente|null</tspan></text>
+  <text x="1183.4279999999999" y="246" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">riesgosValidados</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="1183.4279999999999" y="266" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">recursosSugeridosCad</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="1183.4279999999999" y="286" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">notasOperativas</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="306" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">camposEditadosPorOperador</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="1183.4279999999999" y="326" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">creadaEn</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="346" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">actualizadaEn</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1183.4279999999999" y="366" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">derivadaEn</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <line x1="1175.4279999999999" y1="380" x2="1481.828" y2="380" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1183.4279999999999" y="394" class="mono" dy="0.35em" font-size="11" font-weight="400" text-decoration="underline"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">crear(input)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">$ CartaLlamada</tspan></text>
+  <text x="1183.4279999999999" y="414" class="mono" dy="0.35em" font-size="11" font-weight="400" text-decoration="underline"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">rehidratar(snapshot)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">$ CartaLlamada</tspan></text>
+  <text x="1183.4279999999999" y="434" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">agregarTurno(input)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">TurnoDialogo</tspan></text>
+  <text x="1183.4279999999999" y="454" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">aplicarAnalisis(analisis)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text x="1183.4279999999999" y="474" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">actualizarPorOperador(cambios)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text x="1183.4279999999999" y="494" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">obtenerFaltantesParaDerivacion()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="1183.4279999999999" y="514" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">derivar(notasOpcionales)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text x="1183.4279999999999" y="534" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">descartar()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+</g>
+<g class="class-node" data-id="TurnoDialogo" data-label="TurnoDialogo">
+  <rect x="1981.9889999999998" y="862" width="313" height="148" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1981.9889999999998" y="862" width="313" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2138.4889999999996" y="878" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">TurnoDialogo</text>
+  <line x1="1981.9889999999998" y1="894" x2="2294.9889999999996" y2="894" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1989.9889999999998" y="908" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1989.9889999999998" y="928" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">hablante</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">HablanteTurno</tspan></text>
+  <text x="1989.9889999999998" y="948" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">texto</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1989.9889999999998" y="968" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">timestamp</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <line x1="1981.9889999999998" y1="982" x2="2294.9889999999996" y2="982" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1989.9889999999998" y="996" class="mono" dy="0.35em" font-size="11" font-weight="400" text-decoration="underline"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">desdeTranscripcion(texto)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">$ TurnoDialogo[]</tspan></text>
+</g>
+<g class="class-node" data-id="UbicacionNormalizada" data-label="UbicacionNormalizada">
+  <rect x="830.9363333333333" y="1334" width="299.8" height="208" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="830.9363333333333" y="1334" width="299.8" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="980.8363333333333" y="1350" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">UbicacionNormalizada</text>
+  <line x1="830.9363333333333" y1="1366" x2="1130.7363333333333" y2="1366" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="838.9363333333333" y="1380" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">calle</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="838.9363333333333" y="1400" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">altura</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="838.9363333333333" y="1420" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">interseccion</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="838.9363333333333" y="1440" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">barrioComuna</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="838.9363333333333" y="1460" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">referencia</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="838.9363333333333" y="1480" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">camposFaltantes</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <line x1="830.9363333333333" y1="1494" x2="1130.7363333333333" y2="1494" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="838.9363333333333" y="1508" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">tieneUbicacionMinima()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+  <text x="838.9363333333333" y="1528" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">actualizar(cambios)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">UbicacionNormalizada</tspan></text>
+</g>
+<g class="class-node" data-id="PreguntaProtocolo" data-label="PreguntaProtocolo">
+  <rect x="2157.1223333333332" y="1340.6666666666667" width="266.79999999999995" height="188" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="2157.1223333333332" y="1340.6666666666667" width="266.79999999999995" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2290.5223333333333" y="1356.6666666666667" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">PreguntaProtocolo</text>
+  <line x1="2157.1223333333332" y1="1372.6666666666667" x2="2423.922333333333" y2="1372.6666666666667" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2165.1223333333332" y="1386.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="2165.1223333333332" y="1406.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">texto</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="2165.1223333333332" y="1426.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">obligatoria</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+  <text x="2165.1223333333332" y="1446.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">estado</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">EstadoPreguntaProtocolo</tspan></text>
+  <text x="2165.1223333333332" y="1466.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">respuestaDetectada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="2165.1223333333332" y="1486.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">evidencia</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <line x1="2157.1223333333332" y1="1500.6666666666667" x2="2423.922333333333" y2="1500.6666666666667" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2165.1223333333332" y="1514.6666666666667" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">estaConfirmadaPorOperador()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+</g>
+<g class="class-node" data-id="InstruccionPreArribo" data-label="InstruccionPreArribo">
+  <rect x="1580.224333333333" y="1334" width="352.59999999999997" height="148" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1580.224333333333" y="1334" width="352.59999999999997" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1756.524333333333" y="1350" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">InstruccionPreArribo</text>
+  <line x1="1580.224333333333" y1="1366" x2="1932.824333333333" y2="1366" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1588.224333333333" y="1380" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1588.224333333333" y="1400" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">texto</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="1588.224333333333" y="1420" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">critica</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+  <text x="1588.224333333333" y="1440" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">transmitida</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+  <line x1="1580.224333333333" y1="1454" x2="1932.824333333333" y2="1454" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1588.224333333333" y="1468" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">conTransmitida(transmitida)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">InstruccionPreArribo</tspan></text>
+</g>
+<g class="class-node" data-id="AnalisisCopiloto" data-label="AnalisisCopiloto">
+  <rect x="962.453" y="819.5" width="273.4" height="308" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="962.453" y="819.5" width="273.4" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1099.153" y="835.5" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">AnalisisCopiloto</text>
+  <line x1="962.453" y1="851.5" x2="1235.853" y2="851.5" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="970.453" y="865.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">categoria</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">CategoriaIncidente</tspan></text>
+  <text x="970.453" y="885.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">subcategoria</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="970.453" y="905.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">prioridadSugerida</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">PrioridadIncidente</tspan></text>
+  <text x="970.453" y="925.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">riesgosDetectados</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="970.453" y="945.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">recursosRecomendadosCad</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="970.453" y="965.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">notasOperativasSugeridas</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="970.453" y="985.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">confianzaGlobal</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">NivelCerteza</tspan></text>
+  <text x="970.453" y="1005.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">evidencias</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="970.453" y="1025.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">proveedorUsado</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">ProveedorIA</tspan></text>
+  <text x="970.453" y="1045.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">modeloUsado</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="970.453" y="1065.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">latenciaMs</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">number</tspan></text>
+  <text x="970.453" y="1085.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">degradado</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">boolean</tspan></text>
+  <text x="970.453" y="1105.5" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">motivoDegradacion</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <line x1="962.453" y1="1119.5" x2="1235.853" y2="1119.5" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="ProtocoloReferencia" data-label="ProtocoloReferencia">
+  <rect x="635.8530000000001" y="732" width="286.59999999999997" height="408" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="635.8530000000001" y="732" width="286.59999999999997" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="779.153" y="748" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">ProtocoloReferencia</text>
+  <line x1="635.8530000000001" y1="764" x2="922.453" y2="764" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="643.8530000000001" y="778" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">idRegistro</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="643.8530000000001" y="798" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">timestampLlamada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="643.8530000000001" y="818" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">origenReporte</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">OrigenReporte</tspan></text>
+  <text x="643.8530000000001" y="838" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">categoria</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">CategoriaIncidente</tspan></text>
+  <text x="643.8530000000001" y="858" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">subcategoria</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="643.8530000000001" y="878" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">prioridadSugerida</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">PrioridadIncidente</tspan></text>
+  <text x="643.8530000000001" y="898" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">transcripcionCruda</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="643.8530000000001" y="918" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">calleDetectada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="643.8530000000001" y="938" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">alturaDetectada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="643.8530000000001" y="958" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">interseccionDetectada</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="643.8530000000001" y="978" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">barrioComuna</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string|null</tspan></text>
+  <text x="643.8530000000001" y="998" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">preguntasProtocoloMandatorias</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="643.8530000000001" y="1018" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">preguntasRespondidasEnRelato</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="643.8530000000001" y="1038" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">preguntasPendientes</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="643.8530000000001" y="1058" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">instruccionesPrearribo</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="643.8530000000001" y="1078" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">riesgosDetectados</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="643.8530000000001" y="1098" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">recursosRecomendadosDespacho</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string[]</tspan></text>
+  <text x="643.8530000000001" y="1118" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">notasOperativasDespacho</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <line x1="635.8530000000001" y1="1132" x2="922.453" y2="1132" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="DomainError" data-label="DomainError">
+  <rect x="41.55166666666668" y="40" width="266.79999999999995" height="88" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="41.55166666666668" y="40" width="266.79999999999995" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="174.95166666666665" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">DomainError</text>
+  <line x1="41.55166666666668" y1="72" x2="308.35166666666663" y2="72" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="49.55166666666668" y="86" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">code</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">string</tspan></text>
+  <text x="49.55166666666668" y="106" class="mono" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">details</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">Record~string,unknown~|null</tspan></text>
+  <line x1="41.55166666666668" y1="120" x2="308.35166666666663" y2="120" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="DomainValidationError" data-label="DomainValidationError">
+  <rect x="260.97" y="188" width="152.81199999999998" height="48" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="260.97" y="188" width="152.81199999999998" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="337.37600000000003" y="204" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">DomainValidationError</text>
+  <line x1="260.97" y1="220" x2="413.78200000000004" y2="220" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="260.97" y1="228" x2="413.78200000000004" y2="228" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="InvalidStateTransitionError" data-label="InvalidStateTransitionError">
+  <rect x="40" y="188" width="180.97" height="48" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="188" width="180.97" height="32" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="130.485" y="204" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">InvalidStateTransitionError</text>
+  <line x1="40" y1="220" x2="220.97" y2="220" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="40" y1="228" x2="220.97" y2="228" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="OrigenReporte" data-label="OrigenReporte" data-annotation="enumeration">
+  <rect x="555.344" y="1210" width="120" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="555.344" y="1210" width="120" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="615.344" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="615.344" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">OrigenReporte</text>
+  <line x1="555.344" y1="1258" x2="675.344" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="555.344" y1="1266" x2="675.344" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="CategoriaIncidente" data-label="CategoriaIncidente" data-annotation="enumeration">
+  <rect x="1231.8029999999999" y="1210" width="129.1" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1231.8029999999999" y="1210" width="129.1" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1296.3529999999998" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="1296.3529999999998" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">CategoriaIncidente</text>
+  <line x1="1231.8029999999999" y1="1258" x2="1360.9029999999998" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="1231.8029999999999" y1="1266" x2="1360.9029999999998" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="PrioridadIncidente" data-label="PrioridadIncidente" data-annotation="enumeration">
+  <rect x="715.344" y="1210" width="127.618" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="715.344" y="1210" width="127.618" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="779.153" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="779.153" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">PrioridadIncidente</text>
+  <line x1="715.344" y1="1258" x2="842.962" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="715.344" y1="1266" x2="842.962" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="EstadoCartaLlamada" data-label="EstadoCartaLlamada" data-annotation="enumeration">
+  <rect x="1339.6279999999997" y="608" width="142.438" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1339.6279999999997" y="608" width="142.438" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1410.8469999999998" y="620" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="1410.8469999999998" y="638" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">EstadoCartaLlamada</text>
+  <line x1="1339.6279999999997" y1="656" x2="1482.0659999999998" y2="656" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="1339.6279999999997" y1="664" x2="1482.0659999999998" y2="664" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="EstadoPreguntaProtocolo" data-label="EstadoPreguntaProtocolo" data-annotation="enumeration">
+  <rect x="2204.483333333333" y="1602" width="172.07799999999997" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="2204.483333333333" y="1602" width="172.07799999999997" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2290.5223333333333" y="1614" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="2290.5223333333333" y="1632" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">EstadoPreguntaProtocolo</text>
+  <line x1="2204.483333333333" y1="1650" x2="2376.561333333333" y2="1650" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="2204.483333333333" y1="1658" x2="2376.561333333333" y2="1658" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="NivelCerteza" data-label="NivelCerteza" data-annotation="enumeration">
+  <rect x="1685.2909999999997" y="1210" width="120" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1685.2909999999997" y="1210" width="120" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1745.2909999999997" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="1745.2909999999997" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">NivelCerteza</text>
+  <line x1="1685.2909999999997" y1="1258" x2="1805.2909999999997" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="1685.2909999999997" y1="1266" x2="1805.2909999999997" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="ProveedorIA" data-label="ProveedorIA" data-annotation="enumeration">
+  <rect x="1071.8029999999999" y="1210" width="120" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1071.8029999999999" y="1210" width="120" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1131.8029999999999" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="1131.8029999999999" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">ProveedorIA</text>
+  <line x1="1071.8029999999999" y1="1258" x2="1191.8029999999999" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="1071.8029999999999" y1="1266" x2="1191.8029999999999" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<g class="class-node" data-id="HablanteTurno" data-label="HablanteTurno" data-annotation="enumeration">
+  <rect x="2078.4889999999996" y="1210" width="120" height="64" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="2078.4889999999996" y="1210" width="120" height="48" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2138.4889999999996" y="1222" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="2138.4889999999996" y="1240" text-anchor="middle" font-size="13" font-weight="700" fill="var(--_text)" dy="4.55">HablanteTurno</text>
+  <line x1="2078.4889999999996" y1="1258" x2="2198.4889999999996" y2="1258" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <line x1="2078.4889999999996" y1="1266" x2="2198.4889999999996" y2="1266" stroke="var(--_node-stroke)" stroke-width="0.75" />
+</g>
+<text x="2116.22" y="632" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">turnos</text>
+<text x="2124.4889999999996" y="848" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1..*</text>
+<text x="1060.2519999999997" y="632" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ultimoAnalisis</text>
+<text x="1085.153" y="805.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0..1</text>
+<text x="493.56300000000016" y="928" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ubicacionValidada</text>
+<text x="916.8696666666667" y="1320" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1</text>
+<text x="2390.334" y="928" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">preguntasProtocolo</text>
+<text x="2320.989" y="1326.6666666666667" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0..*</text>
+<text x="1880.1399999999996" y="928" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">instruccionesPreArribo</text>
+<text x="1801.2909999999997" y="1320" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0..*</text>
+<text x="1000.8119999999999" y="1234" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ubicacion</text>
+<text x="1016.8029999999999" y="1320" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1</text>
+<text x="1592.9459999999997" y="1234" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">preguntasProtocolo</text>
+<text x="2232.0556666666666" y="1326.6666666666667" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0..*</text>
+<text x="1462.7519999999997" y="1234" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">instruccionesPreArribo</text>
+<text x="1683.7576666666664" y="1320" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0..*</text>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</svg>

@@ -4,16 +4,19 @@
 
 | Método | Ruta | Descripción | Caso de Uso |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/health` | Estado del servidor, persistencia y proveedor IA activo (`mock` / real) | Infraestructura |
+| `GET` | `/api/health` | Estado del servidor, base SQLite y proveedor IA activo (`mock` / real) | Infraestructura |
 | `GET` | `/api/dataset/llamadas` | Lista los 30 casos sintéticos del CSV para carga rápida de prueba | CU-01 |
-| `GET` | `/api/protocolos` | Lista categorías y protocolos base extraídos del catálogo | Soporte |
-| `POST` | `/api/llamadas` | Crea una nueva Carta de Llamada en estado `EN_CURSO` (opcional `analizarAhora: true`) | CU-01, CU-02 |
-| `GET` | `/api/llamadas` | Lista cartas en curso o filtradas por `estado` (`EN_CURSO`, `DERIVADA`, `DESCARTADA`) | CU-06 |
-| `GET` | `/api/llamadas/:id` | Obtiene el detalle completo de una Carta de Llamada | CU-02..CU-06 |
-| `POST` | `/api/llamadas/:id/turnos` | Agrega un nuevo turno de diálogo y opcionalmente re-analiza la llamada | CU-03 |
-| `POST` | `/api/llamadas/:id/analizar` | Ejecuta (o re-ejecuta) el análisis del copiloto sobre la transcripción actual | CU-02, CU-03 |
-| `PATCH` | `/api/llamadas/:id` | Actualiza campos validados por el operador (ubicación, prioridad, checklist, instrucciones, notas) | CU-04, CU-05 |
-| `POST` | `/api/llamadas/:id/derivar` | Valida invariantes y transiciona la carta a `DERIVADA` | CU-06 |
+| `GET` | `/api/protocolos` | Devuelve el catálogo normalizado desde SQLite (`categorias`, `subcategorias`, preguntas e instrucciones) | Soporte / UI |
+| `POST` | `/api/llamadas` | Crea una nueva `Llamada` en estado `EN_CURSO` (opcional `analizarAhora: true`) | CU-01, CU-02 |
+| `GET` | `/api/llamadas` | Lista llamadas filtrables por `estado`, `categoriaId`, `subcategoriaId` o `prioridad` | CU-06 |
+| `GET` | `/api/llamadas/:id` | Obtiene el detalle completo de una `Llamada` (incluye `turnos` derivados al vuelo y `cartaDespacho` si ya fue derivada) | CU-02..CU-06 |
+| `POST` | `/api/llamadas/:id/turnos` | Anexa un nuevo intercambio a `transcripcionCruda` y opcionalmente re-analiza la llamada | CU-03 |
+| `POST` | `/api/llamadas/:id/analizar` | Ejecuta (o re-ejecuta) el análisis del copiloto sobre `transcripcionCruda` | CU-02, CU-03 |
+| `PATCH` | `/api/llamadas/:id` | Actualiza campos validados por el operador; si cambia `subcategoriaId`, recarga checklist y pre-arribo desde SQLite | CU-04, CU-05 |
+| `POST` | `/api/llamadas/:id/derivar` | Valida invariantes, pasa la `Llamada` a `DERIVADA` y crea la `CartaDespacho` inmutable | CU-06 |
+| `POST` | `/api/llamadas/:id/descartar` | Transiciona una `Llamada` en `EN_CURSO` a `DESCARTADA` | CU-06 |
+| `GET` | `/api/cartas-despacho` | Lista la bandeja CAD de `CartaDespacho` derivadas (filtrable por `prioridad` o `categoriaId`) | CU-06 |
+| `GET` | `/api/cartas-despacho/:id` | Obtiene el detalle inmutable de una `CartaDespacho` (sin transcripción cruda) | CU-06 |
 
 ---
 
@@ -29,7 +32,39 @@
       "model": "deterministic-rules-v1",
       "fallbackEnabled": true
     },
+    "catalog": {
+      "categorias": 7,
+      "subcategorias": 21
+    },
     "datasetLoaded": 30
+  }
+  ```
+
+### `GET /api/protocolos`
+- **Respuesta `200 OK`**:
+  ```json
+  {
+    "preguntasUniversales": [
+      { "id": 1, "texto": "¿Cuál es la dirección exacta, altura o intersección del incidente?", "critica": true }
+    ],
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "INCENDIO_RESCATE",
+        "etiqueta": "Incendio y Rescate",
+        "subcategorias": [
+          {
+            "id": 1,
+            "categoriaId": 1,
+            "nombre": "incendio_estructural",
+            "etiqueta": "Incendio estructural",
+            "criterio": "Fuego o humo en vivienda, comercio o edificio",
+            "preguntas": [{ "id": 3, "texto": "¿Hay personas atrapadas en el interior?", "critica": true }],
+            "instruccionesPreArribo": [{ "id": 1, "texto": "No reingresar al local por ningún motivo.", "critica": true }]
+          }
+        ]
+      }
+    ]
   }
   ```
 
@@ -39,11 +74,10 @@
   {
     "origenReporte": "TELEFONIA_911",
     "transcripcionCruda": "Operador: 911... Llamante: ...",
-    "datasetRefId": "SFX-REC-2026-001",
     "analizarAhora": true
   }
   ```
-- **Respuesta `201 Created`**: Objeto `CartaLlamada` completo (con `ultimoAnalisis` poblado si `analizarAhora: true`).
+- **Respuesta `201 Created`**: Objeto `Llamada` completo (con `ultimoAnalisis`, `checklist` e `instruccionesPreArribo` poblados si `analizarAhora: true`).
 - **Errores**: `400 Bad Request` si `transcripcionCruda` está vacía o `origenReporte` es inválido.
 
 ### `POST /api/llamadas/:id/turnos`
@@ -51,22 +85,58 @@
   ```json
   {
     "hablante": "LLAMANTE",
-    "texto": "Es al 1540, el cocinero sigue adentro pero respira.",
+    "texto": "Es al 1540, ya cortamos la llave de gas general.",
     "reanalizar": true
   }
   ```
-- **Respuesta `200 OK`**: `CartaLlamada` actualizada con el nuevo turno y el re-análisis.
-- **Errores**: `404` si no existe la llamada; `409` si ya fue `DERIVADA`.
+- **Regla**: Anexa `\nLlamante: ...` (o `Operador: ...`) a `transcripcionCruda` y, si `reanalizar: true`, re-ejecuta el copiloto preservando los overrides humanos.
+- **Respuesta `200 OK`**: `Llamada` actualizada.
+- **Errores**: `404` si no existe; `409` si ya fue `DERIVADA` o `DESCARTADA`.
 
 ### `PATCH /api/llamadas/:id`
-- **Body (Zod)**: Campos parciales editables por el operador (`ubicacionValidada`, `categoriaValidada`, `subcategoriaValidada`, `prioridadValidada`, `preguntasProtocolo`, `instruccionesPreArribo`, `riesgosValidados`, `recursosSugeridosCad`, `notasOperativas`).
-- **Regla**: Agrega automáticamente los nombres de campos modificados a `camposEditadosPorOperador`.
-- **Respuesta `200 OK`**: `CartaLlamada` actualizada.
+- **Body (Zod)**: Campos parciales editables por el operador:
+  - `ubicacion`
+  - `categoriaId` / `subcategoriaId`
+  - `descripcionIncidente`
+  - `prioridad`
+  - `checklist` (actualización de `estadoOperador` / `notaOperador` por `preguntaId`)
+  - `instruccionesPreArribo` (actualización de `transmitida` por `instruccionId`)
+  - `riesgosDetectados`
+  - `recursosRecomendadosDespacho`
+  - `notasOperativasDespacho`
+- **Reglas**:
+  1. Registra automáticamente cada campo modificado en `camposEditadosPorOperador`.
+  2. Si cambia `subcategoriaId`, el backend sincroniza `categoriaId` desde `subcategorias` y recarga desde `SQLite` el `checklist` e `instruccionesPreArribo` de la nueva subcategoría (conservando las preguntas universales ya confirmadas).
+- **Respuesta `200 OK`**: `Llamada` actualizada.
+- **Errores**: `400` si algún ID de categoría/subcategoría no existe o el payload es inválido; `404` si no existe la llamada; `409` si ya fue `DERIVADA` o `DESCARTADA`.
 
 ### `POST /api/llamadas/:id/derivar`
-- **Body (Zod, opcional)**: `{ "notasOperativas": "..." }`
-- **Respuesta `200 OK`**: `CartaLlamada` con `estado: "DERIVADA"` y `derivadaEn` ISO timestamp.
+- **Body (Zod, opcional)**: `{ "notasOperativasDespacho": "..." }`
+- **Respuesta `200 OK`**:
+  ```json
+  {
+    "llamada": { "id": "...", "estado": "DERIVADA", "...": "..." },
+    "cartaDespacho": {
+      "id": "...",
+      "llamadaId": "...",
+      "origenReporte": "TELEFONIA_911",
+      "categoriaId": 1,
+      "subcategoriaId": 1,
+      "descripcionIncidente": "Incendio en Comercio Gastronómico",
+      "prioridad": "P1",
+      "ubicacion": { "calle": "Av. Corrientes", "altura": "1540", "interseccion": "Montevideo y Paraná", "barrioComuna": "San Nicolás (Comuna 1)", "referencia": null, "camposFaltantes": [] },
+      "riesgosDetectados": ["Grasa inflamada en conductos", "Personas atrapadas"],
+      "recursosRecomendadosDespacho": ["1x Autobomba de ataque rápido", "1x Unidad de Rescate", "1x Ambulancia SAME preventiva"],
+      "notasOperativasDespacho": "Incendio en cocina de pizzería sobre Corrientes. Humo denso. Empleado atrapado.",
+      "derivadaEn": "2026-11-24T04:30:00.000Z"
+    }
+  }
+  ```
 - **Errores**:
-  - `400 Bad Request` si faltan datos mínimos obligatorios (ubicación mínima, categoría, prioridad o notas).
-  - `404 Not Found` si no existe.
+  - `400 Bad Request` si faltan datos mínimos obligatorios (ubicación mínima, `categoriaId`, `subcategoriaId`, `prioridad` o `notasOperativasDespacho`).
+  - `404 Not Found` si no existe la llamada.
   - `409 Conflict` si ya estaba `DERIVADA` o `DESCARTADA`.
+
+### `GET /api/cartas-despacho`
+- **Query (opcional)**: `prioridad` (`P1`..`P4`), `categoriaId` (entero).
+- **Respuesta `200 OK`**: Lista ordenada por `derivadaEn DESC` de objetos `CartaDespacho` (sin `transcripcionCruda`).

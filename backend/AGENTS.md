@@ -17,10 +17,10 @@ Este archivo define las directrices específicas para el desarrollo del Back-End
 
 - **`config/`**: Carga y validación de variables de entorno (`PORT`, `LLM_PROVIDER`, `LLM_MODEL`, API keys, timeouts).
 - **`domain/`**:
-  - `entities/`: Entidades y objetos de valor (`CartaLlamada`, `AnalisisCopiloto`, `UbicacionNormalizada`, `PreguntaProtocolo`, `InstruccionPreArribo`, `ProtocoloReferencia`).
-  - `enums/`: Enumeraciones congeladas (`CategoriaIncidente`, `PrioridadIncidente`, `EstadoCartaLlamada`, `OrigenReporte`, `EstadoPreguntaProtocolo`, `NivelCerteza`).
+  - `entities/`: Entidades y objetos de valor (`Llamada`, `CartaDespacho`, `AnalisisCopiloto`, `UbicacionNormalizada`, `TurnoDialogo`, `ItemChecklistLlamada`, `ItemInstruccionPreArribo`, `CategoriaProtocolo`, `SubcategoriaProtocolo`, `PreguntaProtocoloDef`, `InstruccionPreArriboDef`, `CasoReferenciaCsv`).
+  - `enums/`: Enumeraciones congeladas (`OrigenReporte`, `PrioridadIncidente`, `EstadoLlamada`, `EstadoPreguntaIA`, `EstadoPreguntaOperador`, `NivelCerteza`, `ProveedorIA`, `HablanteTurno`).
   - `errors/`: Jerarquía de errores de dominio (`DomainValidationError`, `InvalidStateTransitionError`).
-- **`repositories/`**: Encapsulamiento de la persistencia (cartas de llamada y catálogo de protocolos/dataset).
+- **`repositories/`**: Encapsulamiento de la persistencia en SQLite (catálogo de protocolos `categorias`/`subcategorias`/`preguntas_protocolo`/`instrucciones_prearribo_protocolo`, sesiones `llamadas` y entregables `cartas_despacho`) y carga en memoria del CSV de casos de referencia.
 - **`providers/ai/`**:
   - Interfaz `CopilotAnalyzerProvider`.
   - Factory `buildLanguageModel` para proveedores reales (Gemini, Ollama, OpenAI, OpenAI-compatible) usando Vercel AI SDK (`generateObject` + Zod).

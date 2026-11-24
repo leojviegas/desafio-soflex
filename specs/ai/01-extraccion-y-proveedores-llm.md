@@ -1,4 +1,4 @@
-# Especificación de IA 01: Extracción Estructurada, Proveedores Dual y Uso del Dataset
+# Especificación de IA 01: Extracción Estructurada, Proveedores Dual y Pipeline de Protocolos
 
 ## 1. Patrón Dual-Provider en Dos Niveles (`providers/ai/`)
 
@@ -30,40 +30,82 @@ Factory basada en **Vercel AI SDK** (`ai`) que devuelve un `LanguageModel` unifi
 - `LLM_TIMEOUT_MS`: timeout de llamada al modelo (default `15000`)
 - `LLM_FALLBACK_TO_MOCK`: `true` (default) | `false`
 
-### 1.1. Modo Real (`LlmCopilotAnalyzer`)
-- Invoca `generateObject` de `ai` pasando:
-  - `model`: instancia `LanguageModel` provista por `buildLanguageModel`.
-  - `schema`: esquema estricto `AnalisisCopilotoOutputSchema` (Zod), que el SDK convierte a JSON Schema (Structured Outputs) y revalida al recibir la respuesta.
-  - `system`: prompt fijo con rol de operador 911 (no despachador CAD), criterios `P1`..`P4` y reglas anti-alucinación.
-  - `prompt`: bloque *few-shot* (2 ejemplos recuperados del CSV) + transcripción actual y turnos acumulados.
-  - `temperature: 0.1` y `abortSignal: AbortSignal.timeout(timeoutMs)`.
-- Registra métricas operativas en log (`provider`, `model`, `latenciaMs`, `inputTokens`, `outputTokens`) sin exponer secretos.
-- **Resiliencia**: ante `RetryError`, timeout o fallo de validación de esquema, si `LLM_FALLBACK_TO_MOCK=true`, ejecuta `MockCopilotAnalyzer` y devuelve `degradado: true` con `motivoDegradacion`; si está deshabilitado, lanza `AiProviderUnavailableError` (HTTP `503`).
+---
 
-### 1.2. Modo Simulado (`MockCopilotAnalyzer`, `LLM_PROVIDER=mock`)
-- Activo por defecto cuando no hay credenciales externas configuradas.
-- Opera 100% offline y de forma determinista combinando:
-  1. **Match contra catálogo CSV**: si la transcripción coincide con un incidente del dataset (o comparte alta similitud), utiliza su estructura de protocolo y normalización como base y re-evalúa dinámicamente las preguntas respondidas si el operador agregó nuevos turnos de diálogo.
-  2. **Motor de reglas y extracción léxica para transcripciones libres**:
-     - Regex para calles de CABA (`Av. ...`, `calle ... al XXXX`, intersecciones `X y Y`, pisos/deptos, km de autopista) y mapa de barrios/comunas.
-     - Clasificador por palabras clave ponderadas hacia las 6 categorías y subcategorías del dominio.
-     - Reglas de severidad `P1`..`P4` (riesgo vital inmediato, inconsciencia, fuego activo con atrapados, fuga de gas, choque con heridos -> `P1`; riesgo estructural/herido estable -> `P2`; daño material sin heridos -> `P3`; consulta/preventivo -> `P4`).
-     - Plantillas de preguntas mandatorias e instrucciones pre-arribo por categoría tomadas del catálogo del CSV.
+## 2. Pipeline de Análisis (1er Flujo en 1 Sola Llamada + Post-Procesamiento Determinista)
+
+### Paso 1: Construcción del `system` Prompt (Fijo en Todas las Requests)
+El backend ejecuta un `JOIN` en `SQLite` entre `categorias`, `subcategorias` y `preguntas_protocolo` (tarda `< 0,1 ms` en local) y arma un bloque jerárquico compacto con los IDs numéricos autoincrementales:
+
+```text
+PREGUNTAS UNIVERSALES (aplican a toda llamada):
+- [id=1] ¿Cuál es la dirección exacta, altura o intersección del incidente?
+- [id=2] ¿Usted o las personas cercanas se encuentran en un lugar seguro en este momento?
+
+CATÁLOGO DE CATEGORÍAS, SUBCATEGORÍAS Y PREGUNTAS:
+[id=1] INCENDIO_RESCATE (Incendio y Rescate)
+  - [id=1] incendio_estructural — fuego o humo en vivienda, comercio o edificio
+    * [id=3] ¿Hay personas atrapadas en el interior?
+    * [id=4] ¿Hay garrafas o cañería de gas activa?
+    ...
+```
+
+El `system` prompt contiene únicamente:
+1. Rol del copiloto (asistente de operador 911/103/107/147, no despachador CAD).
+2. Reglas anti-alucinación y criterios de severidad `P1`..`P4` (incluyendo definición explícita de `P4` como reclamo administrativo/preventivo sin riesgo, ya que el CSV no posee ejemplos `P4`).
+3. El catálogo completo de categorías, subcategorías y preguntas con sus IDs numéricos.
+
+**Regla estricta**: las instrucciones de `instrucciones_prearribo_protocolo` **nunca** se envían al LLM.
+
+### Paso 2: Construcción del `user` Prompt (Dinámico por Llamada)
+1. **Retrieval *Few-Shot* sobre el CSV**: un buscador léxico local (`TF-IDF` / similitud de tokens normalizados sobre las 30 filas de `docs/dataset_challenge_soflex.csv`) selecciona los **2 casos más cercanos** a la transcripción actual, **excluyendo coincidencias exactas** (similitud muy cercana a `1`) para evitar *data leakage* al probar casos del propio dataset.
+2. **Transcripción actual**: texto completo de `transcripcionCruda` (incluyendo turnos acumulados si se trata de un re-análisis).
+
+### Paso 3: Salida Estructurada del LLM (`LlmCopilotOutputSchema` en Zod)
+`LlmCopilotAnalyzer` invoca `generateObject` de `ai` con `temperature: 0.1`, `abortSignal: AbortSignal.timeout(timeoutMs)` y el esquema Zod estricto:
+- `categoriaId: number` (entero positivo)
+- `subcategoriaId: number` (entero positivo)
+- `descripcionIncidente: string` (título descriptivo breve del hecho puntual)
+- `ubicacion`: `{ calle, altura, interseccion, barrioComuna, referencia }` (todos `string | null`)
+- `prioridadSugerida`: `"P1" | "P2" | "P3" | "P4"`
+- `preguntasDetectadas`: array que incluye **únicamente** las preguntas del catálogo sobre las que exista evidencia en la transcripción:
+  - `preguntaId: number`
+  - `estado`: `"RESPONDIDA" | "AMBIGUA"`
+  - `respuestaExtraida: string`
+  - `citaEvidencia: string` (fragmento literal copiado de `transcripcionCruda`)
+- `riesgosDetectados: string[]`
+- `notasOperativasDespacho: string`
+- `recursosRecomendadosDespacho: string[]`
+- `confianzaGlobal`: `"ALTA" | "MEDIA" | "BAJA"`
+
+### Paso 4: Guardrails Deterministas en Backend (Común a Modo Real y `mock`)
+Antes de construir `AnalisisCopiloto`, el backend ejecuta un post-procesador determinista contra `SQLite` y `transcripcionCruda`:
+1. **Consistencia de `subcategoriaId` y `categoriaId`**: verifica que `subcategoriaId` exista en `subcategorias` (si no existe, cae a la subcategoría de respaldo `general_otro`). Deriva `categoriaId` directamente desde `subcategorias.categoria_id` para evitar cruces inválidos.
+2. **Validación de `ubicacion.camposFaltantes`**: calcula automáticamente qué datos faltan (`calle`, `altura`, `interseccion`, `barrioComuna`) a partir de los valores `null`.
+3. **Verificación anti-alucinación y cálculo de pendientes por resta**:
+   - Recupera desde `SQLite` las preguntas oficiales de `subcategoriaId` más las 2 preguntas universales (`subcategoria_id IS NULL`).
+   - Descarta cualquier `preguntaId` devuelto por el modelo que no pertenezca a ese conjunto permitido.
+   - Para cada pregunta en `preguntasDetectadas`, verifica si `citaEvidencia` existe en `transcripcionCruda` (comparación normalizada sin tildes, signos ni mayúsculas). Si no existe, marca `evidenciaVerificada: false` y degrada `estadoIA` a `AMBIGUA`.
+   - Toda pregunta oficial del catálogo que **no** vino en `preguntasDetectadas` se agrega automáticamente con `estadoIA: "PENDIENTE"` (diseño *fail-safe*: una omisión del modelo nunca se interpreta como respondida).
+4. **Inyección determinista de Pre-Arribo**: consulta en `SQLite` `SELECT * FROM instrucciones_prearribo_protocolo WHERE subcategoria_id = ?` y adjunta esas directivas verificadas al `AnalisisCopiloto` con `transmitida: false`.
 
 ---
 
-## 2. Explotación del Dataset (`docs/dataset_challenge_soflex.csv`)
+## 3. Resiliencia y Modo Simulado (`MockCopilotAnalyzer`, `LLM_PROVIDER=mock`)
 
-El CSV (30 casos, 18 columnas) se utiliza en 4 roles complementarios:
-1. **Catálogo de Protocolos y Plantillas**: Al iniciar el backend se indexan preguntas mandatorias, instrucciones pre-arribo y recursos típicos por `categoria` y `subcategoria`.
-2. **Retrieval Few-Shot para el LLM**: Ante una transcripción nueva, un buscador léxico liviano (similitud por tokens normalizados / TF-IDF) selecciona los 2 ejemplos más cercanos del CSV como contexto *few-shot* para el prompt (excluyendo coincidencia exacta si el usuario está probando un caso del propio CSV para no hacer trampa en la demostración).
-3. **Banco de Casos de Prueba en la UI**: Expuesto vía `GET /api/dataset/llamadas` para cargar en 1 clic casos realistas con modismos locales.
-4. **Suite de Evaluación / Tests**: Verificación automatizada del analizador determinista y validación de esquemas.
+- **Resiliencia del Modo Real**: ante `RetryError`, timeout o fallo de validación de esquema, si `LLM_FALLBACK_TO_MOCK=true`, ejecuta `MockCopilotAnalyzer` y devuelve `degradado: true` con `motivoDegradacion`; si está deshabilitado, lanza `AiProviderUnavailableError` (HTTP `503`). Registra métricas en log (`provider`, `model`, `latenciaMs`, `inputTokens`, `outputTokens`) sin exponer secretos.
+- **Modo Simulado (`MockCopilotAnalyzer`)**:
+  - Opera 100% offline y de forma determinista sobre las mismas tablas del catálogo en `SQLite` y las 30 filas del CSV:
+    1. Extrae ubicación con regex para calles de CABA (`Av. ...`, `al XXXX`, intersecciones `X y Y`, km de autopista, pisos/deptos) y diccionario de barrios/comunas, sin inventar campos ausentes.
+    2. Clasifica `subcategoriaId` y `prioridadSugerida` combinando coincidencia léxica contra los criterios de `subcategorias`, las filas similares del CSV y reglas de severidad `P1`..`P4`.
+    3. Evalúa `preguntasDetectadas` buscando `pistasMock` de cada pregunta en `transcripcionCruda` y extrayendo el fragmento real del texto como `citaEvidencia`.
+    4. Pasa exactamente por el mismo Paso 4 determinista (verificación de citas, cálculo de `PENDIENTE` por resta e inyección de pre-arribo desde `SQLite`).
 
 ---
 
-## 3. Reglas Anti-Alucinación en el Prompt
+## 4. Roles del Dataset (`docs/dataset_challenge_soflex.csv`)
 
-- Instrucción explícita: *"Extraé únicamente hechos presentes en la transcripción. Si un dato de ubicación (calle, altura, intersección, barrio) no figura en el texto, devolvé `null` y agregalo a `camposFaltantes`. Nunca asumas una altura o barrio por deducción geográfica no mencionada."*
-- Cada pregunta marcada como `RESPONDIDA_EN_RELATO` debe incluir la cita textual en `evidencia`.
-- `confianzaGlobal` debe bajar a `MEDIA` o `BAJA` cuando falte la dirección exacta o el relato sea ambiguo.
+El CSV (30 casos, 18 columnas) se utiliza en 3 roles complementarios:
+1. **Retrieval *Few-Shot* para el LLM**: inyecta los 2 casos más similares en el `user` prompt (calibración `P1`–`P3`, modismos porteños, formato de `notasOperativasDespacho` y vocabulario de `recursosRecomendadosDespacho`).
+2. **Banco de Casos de Prueba en la UI**: expuesto vía `GET /api/dataset/llamadas` para cargar transcripciones realistas en 1 clic.
+3. **Respaldo de reglas `mock` y suite de tests**: verificación automatizada del parser CSV (tolerante a espacios después de comas), normalización y contratos Zod.
